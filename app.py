@@ -23,7 +23,7 @@ voice_pipeline = VoiceRAGPipeline()
 print("Voice RAG Pipeline ready.")
 
 def core_process(audio_file, text_input):
-    # Extract file path safely from Gradio 5 audio object
+    # Extract file path safely from Gradio audio object
     audio_path = None
     if isinstance(audio_file, dict):
         audio_path = audio_file.get("path") or audio_file.get("name")
@@ -45,7 +45,7 @@ def core_process(audio_file, text_input):
     else:
         return (
             "", 
-            "Please tap the microphone to speak or type a question.", 
+            "Please record audio or type a question to run Voice RAG.", 
             "⚪ STANDBY", 
             "No evidence sources loaded.",
             "Awaiting query execution..."
@@ -100,7 +100,7 @@ def core_process(audio_file, text_input):
 
     return query_text, answer, status, sources_md, lat_md
 
-# Wrap with @spaces.GPU when on ZeroGPU
+# ZeroGPU GPU wrapper
 if has_spaces:
     @spaces.GPU(duration=60)
     def process_query(audio_file, text_input):
@@ -114,7 +114,7 @@ body { background-color: #080c14 !important; color: #f3f4f6 !important; font-fam
 .gradio-container { max-width: 1280px !important; margin: 0 auto !important; padding: 24px !important; background-color: #080c14 !important; }
 .dark, .gradio-container { background-color: #080c14 !important; }
 h1, h2, h3 { color: #38bdf8 !important; font-weight: 700 !important; }
-.primary-btn { background: linear-gradient(135deg, #0284c7, #6366f1) !important; color: white !important; border: none !important; border-radius: 8px !important; }
+.primary-btn { background: linear-gradient(135deg, #0284c7, #6366f1) !important; color: white !important; font-weight: 600 !important; border: none !important; border-radius: 8px !important; height: 48px !important; }
 """
 
 with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG — HH Goa 2026") as demo:
@@ -126,14 +126,14 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG �
     
     with gr.Row():
         with gr.Column(scale=5):
-            gr.Markdown("### 🎤 Voice & Text Interaction")
+            gr.Markdown("### 🎤 Voice & Text Input")
             audio_input = gr.Audio(
                 sources=["microphone", "upload"], 
                 type="filepath", 
-                label="Voice Input (Tap mic to speak — auto-submits on stop)",
+                label="Voice Input (Speak into microphone)",
             )
             text_input = gr.Textbox(
-                placeholder="Or type your question here and press Enter (e.g. मैनहट्टन परियोजना क्या थी? / What is Manhattan Project?)", 
+                placeholder="Or type your question here (e.g. मैनहट्टन परियोजना क्या थी? / What is Manhattan Project?)", 
                 label="Text Query Fallback",
                 lines=1,
             )
@@ -150,27 +150,25 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG �
     with gr.Row():
         sources_box = gr.Markdown()
 
-    # Interaction bindings
+    # Event handlers
     submit_btn.click(
         fn=process_query,
         inputs=[audio_input, text_input],
         outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
+        api_name=False
     )
     text_input.submit(
         fn=process_query,
         inputs=[audio_input, text_input],
         outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
+        api_name=False
     )
-    audio_input.stop_recording(
+    audio_input.change(
         fn=process_query,
         inputs=[audio_input, text_input],
         outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
-    )
-    audio_input.upload(
-        fn=process_query,
-        inputs=[audio_input, text_input],
-        outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
+        api_name=False
     )
 
 if __name__ == "__main__":
-    demo.launch(show_api=False)
+    demo.launch(ssr=False, show_api=False)
