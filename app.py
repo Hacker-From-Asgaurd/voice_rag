@@ -1,9 +1,25 @@
 import os
+import sys
+import importlib.util
 import uvicorn
 import gradio as gr
-from app.main import app as fastapi_app
 
-# Mount Gradio Blocks for Hugging Face SDK detection while serving your custom FastAPI Dark UI
+# Ensure root and src are in Python path
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+if os.path.join(ROOT_DIR, "src") not in sys.path:
+    sys.path.insert(0, os.path.join(ROOT_DIR, "src"))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)
+
+# Load FastAPI app directly from file location to avoid app.py / app/ name shadowing
+main_py_path = os.path.join(ROOT_DIR, "app", "main.py")
+spec = importlib.util.spec_from_file_location("fastapi_main", main_py_path)
+fastapi_main = importlib.util.module_from_spec(spec)
+sys.modules["fastapi_main"] = fastapi_main
+spec.loader.exec_module(fastapi_main)
+fastapi_app = fastapi_main.app
+
+# Mount Gradio Blocks for Hugging Face while serving custom FastAPI Dark UI
 with gr.Blocks() as demo:
     pass
 
