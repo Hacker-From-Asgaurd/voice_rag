@@ -3,9 +3,8 @@ title: Voice RAG HHGoa
 emoji: 🎙️
 colorFrom: blue
 colorTo: indigo
-sdk: gradio
-sdk_version: 4.44.0
-app_file: app.py
+sdk: docker
+app_port: 8000
 pinned: false
 ---
 
