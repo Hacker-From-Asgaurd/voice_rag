@@ -9,22 +9,27 @@ if os.path.join(ROOT_DIR, "src") not in sys.path:
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
+try:
+    import spaces
+    has_spaces = True
+except ImportError:
+    has_spaces = False
+
 from speech.voice_pipeline import VoiceRAGPipeline
 from harness.guardrails import UNSAFE_RESPONSE
-from harness.pipeline import ABSTENTION_TEXT
 
 # Initialize Voice RAG Pipeline
 print("Initializing Voice RAG Pipeline for Hugging Face Spaces...")
 voice_pipeline = VoiceRAGPipeline()
 print("Voice RAG Pipeline ready.")
 
-def process_query(audio_file, text_input):
+def core_process(audio_file, text_input):
     if audio_file is not None:
         result = voice_pipeline.run(audio_source=audio_file, language_code="unknown")
         query_text = result.get("transcript", "")
-    elif text_input and text_input.strip():
-        result = voice_pipeline.query_text(text_input.strip())
-        query_text = text_input.strip()
+    elif text_input and str(text_input).strip():
+        result = voice_pipeline.query_text(str(text_input).strip())
+        query_text = str(text_input).strip()
     else:
         return "", "Please speak into the microphone or type a question.", "Awaiting input", "No sources", ""
 
@@ -63,7 +68,15 @@ def process_query(audio_file, text_input):
 
     return query_text, answer, status, sources_text, lat_text
 
-# Custom CSS for dark technical styling
+# Wrap with @spaces.GPU when on ZeroGPU
+if has_spaces:
+    @spaces.GPU(duration=60)
+    def process_query(audio_file, text_input):
+        return core_process(audio_file, text_input)
+else:
+    def process_query(audio_file, text_input):
+        return core_process(audio_file, text_input)
+
 custom_css = """
 body { background-color: #080c14; color: #f3f4f6; }
 .gradio-container { max-width: 1200px !important; margin: 0 auto !important; }
@@ -91,7 +104,8 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG â€
         fn=process_query,
         inputs=[audio_input, text_input],
         outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
+        api_name="query",
     )
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(ssr=False)
