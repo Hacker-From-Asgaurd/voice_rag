@@ -81,7 +81,6 @@ app.add_middleware(
         "http://127.0.0.1:8000",
         "http://localhost:3000",
         "http://127.0.0.1:3000",
-        "*",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -89,28 +88,10 @@ app.add_middleware(
 )
 
 
-def get_active_voice_pipeline() -> Optional[VoiceRAGPipeline]:
-    global voice_pipeline
-    if voice_pipeline is not None:
-        return voice_pipeline
-    try:
-        import app.main as app_main
-        if app_main.voice_pipeline is not None:
-            return app_main.voice_pipeline
-    except Exception:
-        pass
-    return None
-
-
 @app.get("/api/health", response_model=HealthResponse)
 async def health_check():
     """Report server readiness without reloading models."""
-    try:
-        vp = get_active_voice_pipeline()
-        rag_ready = bool(vp is not None and getattr(vp, "rag", None) is not None)
-    except Exception:
-        rag_ready = False
-
+    rag_ready = voice_pipeline is not None and voice_pipeline.rag is not None
     sarvam_ready = bool(os.getenv("SARVAM_API_KEY"))
     gemini_ready = bool(os.getenv("GEMINI_API_KEY"))
 
@@ -171,8 +152,7 @@ async def get_metrics():
 @app.post("/api/text-query", response_model=TextQueryResponse)
 async def handle_text_query(req: TextQueryRequest):
     """Process a text query through Guardrail -> Retrieval -> Reranker -> Gate -> Generation."""
-    vp = get_active_voice_pipeline()
-    if vp is None or getattr(vp, "rag", None) is None:
+    if voice_pipeline is None or voice_pipeline.rag is None:
         raise HTTPException(status_code=503, detail="RAG Pipeline not ready.")
 
     query = req.query.strip()
@@ -288,8 +268,7 @@ async def handle_text_query(req: TextQueryRequest):
 @app.post("/api/voice-query", response_model=VoiceQueryResponse)
 async def handle_voice_query(file: UploadFile = File(...)):
     """Process an audio file (wav/mp3/webm) through Sarvam STT and full RAG pipeline."""
-    vp = get_active_voice_pipeline()
-    if vp is None:
+    if voice_pipeline is None:
         raise HTTPException(status_code=503, detail="Voice RAG Pipeline not initialized.")
 
     # Read uploaded bytes

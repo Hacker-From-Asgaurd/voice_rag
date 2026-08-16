@@ -50,13 +50,6 @@ def get_field(obj, key, default=None):
         return obj.get(key, default)
     return default
 
-if has_spaces:
-    gpu_decorator = spaces.GPU(duration=10)
-else:
-    def gpu_decorator(f):
-        return f
-
-@gpu_decorator
 def core_process(audio_file, text_input):
     audio_path = None
     if isinstance(audio_file, dict):
@@ -165,8 +158,9 @@ def core_process(audio_file, text_input):
 
     return query_text, answer, status, sources_md, lat_md
 
+# Top-level ZeroGPU decorator (duration=5s)
 if has_spaces:
-    @spaces.GPU(duration=10)
+    @spaces.GPU(duration=5)
     def process_query(audio_file, text_input):
         return core_process(audio_file, text_input)
 else:
@@ -234,24 +228,5 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG â€
         api_name=False
     )
 
-# Register production FastAPI endpoints directly on demo.app before launch
-import app.main as app_main
-from app.main import (
-    health_check,
-    get_metrics,
-    handle_text_query,
-    handle_voice_query,
-)
-
-app_main.voice_pipeline = voice_pipeline
-
-demo.app.add_api_route("/api/health", health_check, methods=["GET"])
-demo.app.add_api_route("/api/metrics", get_metrics, methods=["GET"])
-demo.app.add_api_route("/api/text-query", handle_text_query, methods=["POST"])
-demo.app.add_api_route("/api/voice-query", handle_voice_query, methods=["POST"])
-
-demo.queue()
-
 if __name__ == "__main__":
-    demo.launch()
-
+    demo.launch(show_api=False)

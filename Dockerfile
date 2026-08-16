@@ -20,10 +20,10 @@ COPY data/ ./data/
 
 # Environment settings
 ENV PYTHONPATH="/app/src:/app"
-ENV PORT=7860
+ENV PORT=8000
 ENV HOST=0.0.0.0
 
-EXPOSE 7860
+EXPOSE 8000
 
-# Start FastAPI server with dynamic PORT resolution for Hugging Face Spaces & Render
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-7860}"]
+# Start FastAPI server with dynamic PORT resolution for Render & Docker
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
