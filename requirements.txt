@@ -1,0 +1,13 @@
+datasets
+sentence-transformers
+faiss-cpu
+numpy
+pandas
+python-dotenv
+sarvamai
+google-genai
+regex
+fastapi
+uvicorn
+python-multipart
+pydantic

@@ -1,0 +1,120 @@
+{
+  "dataset_summary": {
+    "total_rows": 5000,
+    "answerable_queries": 3037,
+    "unanswerable_queries": 1959,
+    "candidate_k": 15
+  },
+  "score_distributions": {
+    "answerable_max_scores": {
+      "min": -5.539470672607422,
+      "mean": 4.909750961971211,
+      "median": 4.934876918792725,
+      "p25": 2.0037670135498047,
+      "p75": 8.10334300994873,
+      "p90": 10.187907600402832,
+      "max": 10.985549926757812
+    },
+    "unanswerable_max_scores": {
+      "min": -7.366295337677002,
+      "mean": 1.892946624584998,
+      "median": 1.2776395082473755,
+      "p25": -0.6103414297103882,
+      "p75": 4.028707504272461,
+      "p90": 7.020458602905274,
+      "max": 10.970887184143066
+    }
+  },
+  "threshold_calibration_table": [
+    {
+      "threshold": -1.0,
+      "answerable_coverage_pct": 34.1455383602239,
+      "answerable_false_reject_pct": 65.85446163977609,
+      "unanswerable_abstain_pct": 19.652884124553342,
+      "unanswerable_false_accept_pct": 80.34711587544666,
+      "gate_accuracy_pct": 28.462770216172938,
+      "covered_count": 1037,
+      "unans_abstain_count": 385
+    },
+    {
+      "threshold": -0.5,
+      "answerable_coverage_pct": 33.849193282844915,
+      "answerable_false_reject_pct": 66.15080671715509,
+      "unanswerable_abstain_pct": 26.69729453802961,
+      "unanswerable_false_accept_pct": 73.30270546197039,
+      "gate_accuracy_pct": 31.044835868694953,
+      "covered_count": 1028,
+      "unans_abstain_count": 523
+    },
+    {
+      "threshold": 0.0,
+      "answerable_coverage_pct": 33.58577543628581,
+      "answerable_false_reject_pct": 66.4142245637142,
+      "unanswerable_abstain_pct": 33.63961204696274,
+      "unanswerable_false_accept_pct": 66.36038795303726,
+      "gate_accuracy_pct": 33.60688550840673,
+      "covered_count": 1020,
+      "unans_abstain_count": 659
+    },
+    {
+      "threshold": 0.5,
+      "answerable_coverage_pct": 33.12479420480738,
+      "answerable_false_reject_pct": 66.87520579519263,
+      "unanswerable_abstain_pct": 40.17355793772333,
+      "unanswerable_false_accept_pct": 59.826442062276676,
+      "gate_accuracy_pct": 35.88871096877502,
+      "covered_count": 1006,
+      "unans_abstain_count": 787
+    },
+    {
+      "threshold": 0.8,
+      "answerable_coverage_pct": 32.663812973328945,
+      "answerable_false_reject_pct": 67.33618702667106,
+      "unanswerable_abstain_pct": 44.66564573762123,
+      "unanswerable_false_accept_pct": 55.33435426237876,
+      "gate_accuracy_pct": 37.369895916733384,
+      "covered_count": 992,
+      "unans_abstain_count": 875
+    },
+    {
+      "threshold": 1.0,
+      "answerable_coverage_pct": 32.46624958840961,
+      "answerable_false_reject_pct": 67.53375041159039,
+      "unanswerable_abstain_pct": 47.26901480347116,
+      "unanswerable_false_accept_pct": 52.73098519652885,
+      "gate_accuracy_pct": 38.27061649319455,
+      "covered_count": 986,
+      "unans_abstain_count": 926
+    },
+    {
+      "threshold": 1.2,
+      "answerable_coverage_pct": 32.071122818570956,
+      "answerable_false_reject_pct": 67.92887718142904,
+      "unanswerable_abstain_pct": 49.31087289433385,
+      "unanswerable_false_accept_pct": 50.68912710566615,
+      "gate_accuracy_pct": 38.8310648518815,
+      "covered_count": 974,
+      "unans_abstain_count": 966
+    },
+    {
+      "threshold": 1.5,
+      "answerable_coverage_pct": 31.610141587092528,
+      "answerable_false_reject_pct": 68.38985841290747,
+      "unanswerable_abstain_pct": 52.37366003062787,
+      "unanswerable_false_accept_pct": 47.626339969372125,
+      "gate_accuracy_pct": 39.75180144115292,
+      "covered_count": 960,
+      "unans_abstain_count": 1026
+    },
+    {
+      "threshold": 2.0,
+      "answerable_coverage_pct": 30.852815278235102,
+      "answerable_false_reject_pct": 69.1471847217649,
+      "unanswerable_abstain_pct": 57.937723328228685,
+      "unanswerable_false_accept_pct": 42.06227667177131,
+      "gate_accuracy_pct": 41.47317854283427,
+      "covered_count": 937,
+      "unans_abstain_count": 1135
+    }
+  ]
+}

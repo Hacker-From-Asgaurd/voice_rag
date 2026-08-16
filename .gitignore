@@ -1,0 +1,37 @@
+# Virtual Environment
+.venv/
+env/
+venv/
+ENV/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environment Variables & Secrets
+.env
+.env.local
+*.env
+
+# Temporary / Scratch
+scratch/
+browser/
+.system_generated/
+*.log
+
+# User Audio Recordings (Processed only in memory)
+*.wav
+*.webm
+*.mp3
+*.ogg
+*.m4a
+!data/test_voice_clips/*.wav
+!data/test_hi.wav
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

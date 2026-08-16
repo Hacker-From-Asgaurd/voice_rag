@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: voice-rag-hhgoa
+    runtime: docker
+    plan: standard
+    envVars:
+      - key: SARVAM_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PORT
+        value: 8000

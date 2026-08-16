@@ -1,0 +1,132 @@
+{
+  "dataset": {
+    "answerable_total": 3037,
+    "retrieval_success_at_5": 2180,
+    "retrieval_success_pct": 71.78,
+    "retrieval_failure_at_5": 857,
+    "retrieval_failure_pct": 28.22,
+    "unanswerable_total": 1959,
+    "candidate_k": 15
+  },
+  "threshold_calibration": [
+    {
+      "threshold": -1.0,
+      "retention_pct": 94.58715596330275,
+      "distractor_reject_pct": 20.536756126021004,
+      "unans_abstain_pct": 19.652884124553342,
+      "supported_cov_pct": 67.89594995060916,
+      "retained_count": 2062,
+      "distractor_rejected_count": 176,
+      "unans_abstained_count": 385
+    },
+    {
+      "threshold": -0.5,
+      "retention_pct": 92.43119266055045,
+      "distractor_reject_pct": 24.73745624270712,
+      "unans_abstain_pct": 26.69729453802961,
+      "supported_cov_pct": 66.34837010207441,
+      "retained_count": 2015,
+      "distractor_rejected_count": 212,
+      "unans_abstained_count": 523
+    },
+    {
+      "threshold": 0.0,
+      "retention_pct": 89.35779816513761,
+      "distractor_reject_pct": 31.03850641773629,
+      "unans_abstain_pct": 33.63961204696274,
+      "supported_cov_pct": 64.14224563714191,
+      "retained_count": 1948,
+      "distractor_rejected_count": 266,
+      "unans_abstained_count": 659
+    },
+    {
+      "threshold": 0.5,
+      "retention_pct": 86.46788990825688,
+      "distractor_reject_pct": 36.05600933488915,
+      "unans_abstain_pct": 40.17355793772333,
+      "supported_cov_pct": 62.06783009548897,
+      "retained_count": 1885,
+      "distractor_rejected_count": 309,
+      "unans_abstained_count": 787
+    },
+    {
+      "threshold": 0.8,
+      "retention_pct": 84.31192660550458,
+      "distractor_reject_pct": 40.25670945157526,
+      "unans_abstain_pct": 44.66564573762123,
+      "supported_cov_pct": 60.520250246954234,
+      "retained_count": 1838,
+      "distractor_rejected_count": 345,
+      "unans_abstained_count": 875
+    },
+    {
+      "threshold": 1.0,
+      "retention_pct": 82.88990825688073,
+      "distractor_reject_pct": 42.123687281213535,
+      "unans_abstain_pct": 47.26901480347116,
+      "supported_cov_pct": 59.499506091537704,
+      "retained_count": 1807,
+      "distractor_rejected_count": 361,
+      "unans_abstained_count": 926
+    },
+    {
+      "threshold": 1.2,
+      "retention_pct": 80.87155963302752,
+      "distractor_reject_pct": 45.15752625437573,
+      "unans_abstain_pct": 49.31087289433385,
+      "supported_cov_pct": 58.05070793546263,
+      "retained_count": 1763,
+      "distractor_rejected_count": 387,
+      "unans_abstained_count": 966
+    },
+    {
+      "threshold": 1.5,
+      "retention_pct": 78.80733944954127,
+      "distractor_reject_pct": 47.957992998833134,
+      "unans_abstain_pct": 52.37366003062787,
+      "supported_cov_pct": 56.56898254856767,
+      "retained_count": 1718,
+      "distractor_rejected_count": 411,
+      "unans_abstained_count": 1026
+    },
+    {
+      "threshold": 2.0,
+      "retention_pct": 75.36697247706422,
+      "distractor_reject_pct": 53.32555425904317,
+      "unans_abstain_pct": 57.937723328228685,
+      "supported_cov_pct": 54.09944023707606,
+      "retained_count": 1643,
+      "distractor_rejected_count": 457,
+      "unans_abstained_count": 1135
+    }
+  ],
+  "score_distributions": {
+    "true_relevant_passages": {
+      "min": -6.11198616027832,
+      "p25": 1.9829767942428589,
+      "median": 4.745026111602783,
+      "mean": 4.832458156852261,
+      "p75": 7.8382415771484375,
+      "p90": 10.065641403198244,
+      "max": 10.985549926757812
+    },
+    "answerable_distractors": {
+      "min": -5.539470672607422,
+      "p25": -0.4560215175151825,
+      "median": 1.6548300981521606,
+      "mean": 2.24806500411111,
+      "p75": 4.387587070465088,
+      "p90": 7.747891807556152,
+      "max": 10.977816581726074
+    },
+    "unanswerable_distractors": {
+      "min": -7.366295337677002,
+      "p25": -0.6103414297103882,
+      "median": 1.2776395082473755,
+      "mean": 1.892946624584998,
+      "p75": 4.028707504272461,
+      "p90": 7.020458602905274,
+      "max": 10.970887184143066
+    }
+  }
+}

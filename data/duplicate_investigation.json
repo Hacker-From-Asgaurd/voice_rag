@@ -1,0 +1,3430 @@
+{
+  "summary": {
+    "metadata_records": 50311,
+    "duplicate_pairs": 77,
+    "total_duplicate_records": 503,
+    "unique_affected_query_ids": 72,
+    "max_chunks_for_single_pair": 10,
+    "exact_duplicate_chunks": 0,
+    "distinct_child_chunks": 77
+  },
+  "classifications": {
+    "A": 77,
+    "B": 0,
+    "C": 0,
+    "D": 0
+  },
+  "affected_pairs": [
+    {
+      "query_id": 530679,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        965,
+        963,
+        963,
+        963,
+        963,
+        963,
+        963,
+        963,
+        383
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8097,
+      "is_parent_identical": true,
+      "raw_passage_length": 8098
+    },
+    {
+      "query_id": 389184,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        522,
+        19121
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 19646,
+      "is_parent_identical": true,
+      "raw_passage_length": 19646
+    },
+    {
+      "query_id": 460835,
+      "passage_id": 2,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        987,
+        969,
+        937,
+        969,
+        937,
+        969,
+        937,
+        969,
+        663
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8345,
+      "is_parent_identical": true,
+      "raw_passage_length": 8345
+    },
+    {
+      "query_id": 470036,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        901,
+        959,
+        959,
+        959,
+        960,
+        963,
+        963,
+        963,
+        309
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7944,
+      "is_parent_identical": true,
+      "raw_passage_length": 7944
+    },
+    {
+      "query_id": 671012,
+      "passage_id": 1,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        992,
+        949,
+        949,
+        949,
+        949,
+        949,
+        949,
+        949,
+        137
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7780,
+      "is_parent_identical": true,
+      "raw_passage_length": 7780
+    },
+    {
+      "query_id": 709635,
+      "passage_id": 0,
+      "classification": "A",
+      "record_count": 10,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "chunk_lengths": [
+        995,
+        935,
+        836,
+        836,
+        836,
+        836,
+        836,
+        836,
+        836,
+        385
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8176,
+      "is_parent_identical": true,
+      "raw_passage_length": 8176
+    },
+    {
+      "query_id": 194575,
+      "passage_id": 2,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        222,
+        7304
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7527,
+      "is_parent_identical": true,
+      "raw_passage_length": 7527
+    },
+    {
+      "query_id": 194575,
+      "passage_id": 6,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        974,
+        965,
+        965,
+        965,
+        965,
+        965,
+        965,
+        965,
+        816
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8553,
+      "is_parent_identical": true,
+      "raw_passage_length": 8553
+    },
+    {
+      "query_id": 510589,
+      "passage_id": 0,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        1000,
+        979,
+        979,
+        979,
+        979,
+        979,
+        979,
+        979,
+        330
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8191,
+      "is_parent_identical": true,
+      "raw_passage_length": 8191
+    },
+    {
+      "query_id": 102598,
+      "passage_id": 1,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        972,
+        986,
+        986,
+        986,
+        995,
+        995,
+        995,
+        737
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7659,
+      "is_parent_identical": true,
+      "raw_passage_length": 7659
+    },
+    {
+      "query_id": 1164631,
+      "passage_id": 0,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        141,
+        8272
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8414,
+      "is_parent_identical": true,
+      "raw_passage_length": 8414
+    },
+    {
+      "query_id": 490042,
+      "passage_id": 2,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        957,
+        931,
+        956,
+        957,
+        931,
+        956,
+        957,
+        931,
+        146
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7730,
+      "is_parent_identical": true,
+      "raw_passage_length": 7730
+    },
+    {
+      "query_id": 490042,
+      "passage_id": 7,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        991,
+        995,
+        995,
+        995,
+        995,
+        995,
+        995,
+        701
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7669,
+      "is_parent_identical": true,
+      "raw_passage_length": 7669
+    },
+    {
+      "query_id": 514736,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 3,
+      "chunk_numbers": [
+        0,
+        1,
+        2
+      ],
+      "is_child": [
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        922,
+        90,
+        5850
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 6864,
+      "is_parent_identical": true,
+      "raw_passage_length": 6864
+    },
+    {
+      "query_id": 52602,
+      "passage_id": 3,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        915,
+        917,
+        917,
+        917,
+        917,
+        917,
+        917,
+        697
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7121,
+      "is_parent_identical": true,
+      "raw_passage_length": 7121
+    },
+    {
+      "query_id": 56847,
+      "passage_id": 0,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "chunk_lengths": [
+        984,
+        996,
+        995,
+        995,
+        995,
+        995,
+        995,
+        995,
+        245
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8203,
+      "is_parent_identical": true,
+      "raw_passage_length": 8203
+    },
+    {
+      "query_id": 433037,
+      "passage_id": 7,
+      "classification": "A",
+      "record_count": 4,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        945,
+        923,
+        923,
+        697
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 3491,
+      "is_parent_identical": true,
+      "raw_passage_length": 3491
+    },
+    {
+      "query_id": 627862,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        895,
+        895,
+        895,
+        895,
+        895,
+        895,
+        895,
+        895,
+        426
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7594,
+      "is_parent_identical": true,
+      "raw_passage_length": 7594
+    },
+    {
+      "query_id": 383504,
+      "passage_id": 3,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        922,
+        938,
+        998,
+        995,
+        998,
+        995,
+        998,
+        995,
+        262
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8109,
+      "is_parent_identical": true,
+      "raw_passage_length": 8109
+    },
+    {
+      "query_id": 686838,
+      "passage_id": 9,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        903,
+        766
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 1670,
+      "is_parent_identical": true,
+      "raw_passage_length": 1670
+    },
+    {
+      "query_id": 511681,
+      "passage_id": 1,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        899,
+        899,
+        899,
+        899,
+        899,
+        899,
+        899,
+        899,
+        481
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7681,
+      "is_parent_identical": true,
+      "raw_passage_length": 7681
+    },
+    {
+      "query_id": 631264,
+      "passage_id": 3,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        896,
+        991,
+        991,
+        991,
+        991,
+        991,
+        991,
+        949
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7798,
+      "is_parent_identical": true,
+      "raw_passage_length": 7798
+    },
+    {
+      "query_id": 530729,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 10,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        991,
+        961,
+        949,
+        949,
+        939,
+        929,
+        929,
+        929,
+        929,
+        785
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 9299,
+      "is_parent_identical": true,
+      "raw_passage_length": 9299
+    },
+    {
+      "query_id": 208164,
+      "passage_id": 3,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        923,
+        295
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 1220,
+      "is_parent_identical": true,
+      "raw_passage_length": 1220
+    },
+    {
+      "query_id": 497861,
+      "passage_id": 6,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        954,
+        954,
+        954,
+        954,
+        954,
+        954,
+        954,
+        954,
+        859
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8499,
+      "is_parent_identical": true,
+      "raw_passage_length": 8499
+    },
+    {
+      "query_id": 1173716,
+      "passage_id": 3,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        980,
+        971,
+        970,
+        971,
+        970,
+        971,
+        970,
+        971,
+        540
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8322,
+      "is_parent_identical": true,
+      "raw_passage_length": 8322
+    },
+    {
+      "query_id": 757031,
+      "passage_id": 4,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        973,
+        963,
+        973,
+        963,
+        973,
+        963,
+        973,
+        868
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7656,
+      "is_parent_identical": true,
+      "raw_passage_length": 7656
+    },
+    {
+      "query_id": 492075,
+      "passage_id": 9,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        1000,
+        999,
+        999,
+        999,
+        999,
+        999,
+        999,
+        999,
+        173
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8174,
+      "is_parent_identical": true,
+      "raw_passage_length": 8174
+    },
+    {
+      "query_id": 1164539,
+      "passage_id": 9,
+      "classification": "A",
+      "record_count": 6,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        991,
+        995,
+        986,
+        986,
+        986,
+        476
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 5425,
+      "is_parent_identical": true,
+      "raw_passage_length": 5425
+    },
+    {
+      "query_id": 137199,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        828,
+        872,
+        872,
+        872,
+        872,
+        872,
+        872,
+        872,
+        696
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7636,
+      "is_parent_identical": true,
+      "raw_passage_length": 7636
+    },
+    {
+      "query_id": 418430,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        151,
+        7792
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7944,
+      "is_parent_identical": true,
+      "raw_passage_length": 7944
+    },
+    {
+      "query_id": 528980,
+      "passage_id": 3,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        1,
+        1
+      ],
+      "chunk_lengths": [
+        73,
+        7212
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7286,
+      "is_parent_identical": true,
+      "raw_passage_length": 7286
+    },
+    {
+      "query_id": 394448,
+      "passage_id": 5,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        2,
+        8372
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8375,
+      "is_parent_identical": true,
+      "raw_passage_length": 8375
+    },
+    {
+      "query_id": 631080,
+      "passage_id": 9,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        184,
+        8416
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8601,
+      "is_parent_identical": true,
+      "raw_passage_length": 8601
+    },
+    {
+      "query_id": 734464,
+      "passage_id": 0,
+      "classification": "A",
+      "record_count": 3,
+      "chunk_numbers": [
+        0,
+        1,
+        2
+      ],
+      "is_child": [
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        1,
+        1,
+        1
+      ],
+      "chunk_lengths": [
+        951,
+        920,
+        261
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 2134,
+      "is_parent_identical": true,
+      "raw_passage_length": 2134
+    },
+    {
+      "query_id": 679161,
+      "passage_id": 5,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        269,
+        7015
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7285,
+      "is_parent_identical": true,
+      "raw_passage_length": 7285
+    },
+    {
+      "query_id": 679161,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        248,
+        7264
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7513,
+      "is_parent_identical": true,
+      "raw_passage_length": 7513
+    },
+    {
+      "query_id": 703906,
+      "passage_id": 2,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        997,
+        971,
+        971,
+        971,
+        971,
+        971,
+        971,
+        928
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7758,
+      "is_parent_identical": true,
+      "raw_passage_length": 7758
+    },
+    {
+      "query_id": 595855,
+      "passage_id": 0,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        130,
+        7327
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7458,
+      "is_parent_identical": true,
+      "raw_passage_length": 7458
+    },
+    {
+      "query_id": 666426,
+      "passage_id": 5,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        833,
+        947,
+        947,
+        947,
+        947,
+        947,
+        947,
+        947,
+        326
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7796,
+      "is_parent_identical": true,
+      "raw_passage_length": 7796
+    },
+    {
+      "query_id": 394849,
+      "passage_id": 1,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        20,
+        8134
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8155,
+      "is_parent_identical": true,
+      "raw_passage_length": 8155
+    },
+    {
+      "query_id": 647816,
+      "passage_id": 6,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        982,
+        944,
+        944,
+        944,
+        944,
+        944,
+        944,
+        944,
+        722
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8320,
+      "is_parent_identical": true,
+      "raw_passage_length": 8320
+    },
+    {
+      "query_id": 647816,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        915,
+        960,
+        989,
+        985,
+        978,
+        960,
+        988,
+        990,
+        561
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8334,
+      "is_parent_identical": true,
+      "raw_passage_length": 8334
+    },
+    {
+      "query_id": 131629,
+      "passage_id": 6,
+      "classification": "A",
+      "record_count": 7,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        997,
+        998,
+        998,
+        998,
+        998,
+        998,
+        141
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 6134,
+      "is_parent_identical": true,
+      "raw_passage_length": 6134
+    },
+    {
+      "query_id": 462230,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        985,
+        980,
+        1000,
+        932,
+        980,
+        990,
+        990,
+        794
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7658,
+      "is_parent_identical": true,
+      "raw_passage_length": 7658
+    },
+    {
+      "query_id": 615854,
+      "passage_id": 0,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "chunk_lengths": [
+        915,
+        962,
+        962,
+        962,
+        962,
+        962,
+        964,
+        965,
+        872
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8534,
+      "is_parent_identical": true,
+      "raw_passage_length": 8534
+    },
+    {
+      "query_id": 369683,
+      "passage_id": 3,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        829,
+        839,
+        839,
+        839,
+        839,
+        839,
+        839,
+        839,
+        838
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7548,
+      "is_parent_identical": true,
+      "raw_passage_length": 7548
+    },
+    {
+      "query_id": 386282,
+      "passage_id": 5,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        862,
+        950,
+        950,
+        950,
+        950,
+        950,
+        950,
+        950,
+        541
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8061,
+      "is_parent_identical": true,
+      "raw_passage_length": 8061
+    },
+    {
+      "query_id": 731974,
+      "passage_id": 3,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        1000,
+        995,
+        996,
+        992,
+        998,
+        998,
+        995,
+        194
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7301,
+      "is_parent_identical": true,
+      "raw_passage_length": 7302
+    },
+    {
+      "query_id": 427351,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        982,
+        912,
+        842,
+        995,
+        912,
+        842,
+        995,
+        912,
+        254
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7654,
+      "is_parent_identical": true,
+      "raw_passage_length": 7654
+    },
+    {
+      "query_id": 406960,
+      "passage_id": 7,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        463,
+        7704
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8168,
+      "is_parent_identical": true,
+      "raw_passage_length": 8168
+    },
+    {
+      "query_id": 411054,
+      "passage_id": 9,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        853,
+        839,
+        839,
+        839,
+        839,
+        839,
+        839,
+        839,
+        808
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7542,
+      "is_parent_identical": true,
+      "raw_passage_length": 7542
+    },
+    {
+      "query_id": 726110,
+      "passage_id": 9,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        929,
+        929,
+        929,
+        929,
+        929,
+        929,
+        929,
+        929,
+        913
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8353,
+      "is_parent_identical": true,
+      "raw_passage_length": 8353
+    },
+    {
+      "query_id": 513788,
+      "passage_id": 5,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        990,
+        932,
+        894,
+        894,
+        894,
+        894,
+        894,
+        894,
+        675
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7969,
+      "is_parent_identical": true,
+      "raw_passage_length": 7969
+    },
+    {
+      "query_id": 513788,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        988,
+        993,
+        993,
+        993,
+        993,
+        993,
+        993,
+        993,
+        133
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8080,
+      "is_parent_identical": true,
+      "raw_passage_length": 8080
+    },
+    {
+      "query_id": 118623,
+      "passage_id": 9,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        352,
+        8601
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8954,
+      "is_parent_identical": true,
+      "raw_passage_length": 8954
+    },
+    {
+      "query_id": 467937,
+      "passage_id": 5,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        119,
+        7167
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7287,
+      "is_parent_identical": true,
+      "raw_passage_length": 7287
+    },
+    {
+      "query_id": 432440,
+      "passage_id": 1,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        215,
+        5567
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 5783,
+      "is_parent_identical": true,
+      "raw_passage_length": 5783
+    },
+    {
+      "query_id": 263021,
+      "passage_id": 4,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        954,
+        853,
+        970,
+        853,
+        970,
+        853,
+        967,
+        987,
+        573
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7988,
+      "is_parent_identical": true,
+      "raw_passage_length": 7988
+    },
+    {
+      "query_id": 671397,
+      "passage_id": 4,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        10,
+        7935
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7946,
+      "is_parent_identical": true,
+      "raw_passage_length": 7946
+    },
+    {
+      "query_id": 547180,
+      "passage_id": 7,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        272,
+        7157
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7430,
+      "is_parent_identical": true,
+      "raw_passage_length": 7430
+    },
+    {
+      "query_id": 740769,
+      "passage_id": 6,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        926,
+        991,
+        990,
+        983,
+        983,
+        983,
+        971,
+        823
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7657,
+      "is_parent_identical": true,
+      "raw_passage_length": 7657
+    },
+    {
+      "query_id": 446385,
+      "passage_id": 5,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        884,
+        359
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 1244,
+      "is_parent_identical": true,
+      "raw_passage_length": 1244
+    },
+    {
+      "query_id": 461522,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        915,
+        987,
+        987,
+        987,
+        987,
+        987,
+        987,
+        487
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7331,
+      "is_parent_identical": true,
+      "raw_passage_length": 7331
+    },
+    {
+      "query_id": 700738,
+      "passage_id": 4,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        43,
+        8216
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8260,
+      "is_parent_identical": true,
+      "raw_passage_length": 8260
+    },
+    {
+      "query_id": 241552,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        997,
+        971,
+        971,
+        971,
+        971,
+        971,
+        971,
+        880
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7710,
+      "is_parent_identical": true,
+      "raw_passage_length": 7710
+    },
+    {
+      "query_id": 467520,
+      "passage_id": 7,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        954,
+        959,
+        959,
+        959,
+        959,
+        959,
+        959,
+        80
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 6795,
+      "is_parent_identical": true,
+      "raw_passage_length": 6795
+    },
+    {
+      "query_id": 461580,
+      "passage_id": 0,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "chunk_lengths": [
+        986,
+        937,
+        946,
+        948,
+        937,
+        946,
+        948,
+        848
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7503,
+      "is_parent_identical": true,
+      "raw_passage_length": 7503
+    },
+    {
+      "query_id": 652042,
+      "passage_id": 2,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        973,
+        995,
+        1000,
+        931,
+        931,
+        931,
+        931,
+        931,
+        76
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7707,
+      "is_parent_identical": true,
+      "raw_passage_length": 7707
+    },
+    {
+      "query_id": 433426,
+      "passage_id": 0,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "chunk_lengths": [
+        994,
+        956,
+        973,
+        977,
+        951,
+        969,
+        976,
+        947,
+        132
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7883,
+      "is_parent_identical": true,
+      "raw_passage_length": 7883
+    },
+    {
+      "query_id": 1164290,
+      "passage_id": 6,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        991,
+        959,
+        959,
+        986,
+        966,
+        985,
+        966,
+        603
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7422,
+      "is_parent_identical": true,
+      "raw_passage_length": 7422
+    },
+    {
+      "query_id": 444455,
+      "passage_id": 2,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        969,
+        983,
+        983,
+        983,
+        983,
+        983,
+        983,
+        762
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7636,
+      "is_parent_identical": true,
+      "raw_passage_length": 7636
+    },
+    {
+      "query_id": 551721,
+      "passage_id": 8,
+      "classification": "A",
+      "record_count": 10,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        730,
+        833,
+        833,
+        833,
+        833,
+        833,
+        833,
+        833,
+        833,
+        767
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8170,
+      "is_parent_identical": true,
+      "raw_passage_length": 8170
+    },
+    {
+      "query_id": 439558,
+      "passage_id": 3,
+      "classification": "A",
+      "record_count": 9,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        992,
+        989,
+        989,
+        989,
+        989,
+        989,
+        989,
+        989,
+        266
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 8189,
+      "is_parent_identical": true,
+      "raw_passage_length": 8189
+    },
+    {
+      "query_id": 461372,
+      "passage_id": 1,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        959,
+        988,
+        942,
+        988,
+        942,
+        988,
+        942,
+        926
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7682,
+      "is_parent_identical": true,
+      "raw_passage_length": 7682
+    },
+    {
+      "query_id": 385715,
+      "passage_id": 9,
+      "classification": "A",
+      "record_count": 2,
+      "chunk_numbers": [
+        0,
+        1
+      ],
+      "is_child": [
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        85,
+        7226
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7312,
+      "is_parent_identical": true,
+      "raw_passage_length": 7312
+    },
+    {
+      "query_id": 420079,
+      "passage_id": 7,
+      "classification": "A",
+      "record_count": 8,
+      "chunk_numbers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "is_child": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "is_selected": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "chunk_lengths": [
+        990,
+        984,
+        941,
+        962,
+        978,
+        981,
+        984,
+        832
+      ],
+      "are_chunks_exact_duplicates": false,
+      "parent_length": 7659,
+      "is_parent_identical": true,
+      "raw_passage_length": 7659
+    }
+  ],
+  "retrieval_impact_analysis": {
+    "total_queries_evaluated": 3037,
+    "top5_multi_chunk_queries": 9,
+    "top5_multi_chunk_queries_pct": 0.3,
+    "top10_multi_chunk_queries": 27,
+    "top10_multi_chunk_queries_pct": 0.89,
+    "total_top5_duplicate_slots": 12,
+    "total_top10_duplicate_slots": 76
+  },
+  "recommendation": {
+    "is_legitimate": true,
+    "summary": "All 77 duplicate pairs are Type A legitimate child chunks from long passages (>1200 chars). Deduplication or parent-level aggregation during retrieval is a viable controlled experiment for Phase 3 to prevent redundant slot usage."
+  }
+}

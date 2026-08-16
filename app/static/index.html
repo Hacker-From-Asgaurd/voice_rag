@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VOICE RAG — HH Goa 2026 | Multilingual Grounded Retrieval Dashboard</title>
+  <meta name="description" content="Voice-Enabled Grounded RAG Model for MSMARCO-XI with Sarvam Saaras v3, Multilingual E5, CrossEncoder Reranking, and Calibrated Evidence Gating.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-badge">TASK #2</div>
+        <div class="brand-title">
+          <h1>VOICE RAG</h1>
+          <span class="sub-brand">HH GOA 2026</span>
+        </div>
+      </div>
+      <div class="system-status">
+        <div class="status-pill" id="sttStatus"><span class="dot active"></span> SARVAM SAARAS v3</div>
+        <div class="status-pill" id="retrievalStatus"><span class="dot active"></span> E5-BASE (k=15)</div>
+        <div class="status-pill" id="gateStatus"><span class="dot active"></span> GATE T=0.80</div>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <!-- Left Column: Voice Interaction & Live Latency Waterfall -->
+      <section class="left-section">
+        <!-- Voice Card -->
+        <div class="voice-card">
+          <div class="card-header">
+            <h2>VOICE INTERACTION</h2>
+            <button class="text-toggle-btn" id="toggleTextInputBtn" title="Switch to text input">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <span>Text Input</span>
+            </button>
+          </div>
+
+          <!-- Hero Microphone Area -->
+          <div class="mic-hero">
+            <div class="pulse-ring" id="pulseRing"></div>
+            <button class="mic-button" id="micButton" aria-label="Microphone Button">
+              <svg class="mic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="23"/>
+                <line x1="8" y1="23" x2="16" y2="23"/>
+              </svg>
+            </button>
+            <div class="mic-status-label" id="micStatusText">Tap to speak</div>
+            <div class="mic-subtext" id="micSubtext">Hindi · English · Marathi · Code-Mixed</div>
+            <canvas id="waveformCanvas" class="waveform-canvas" width="280" height="32"></canvas>
+          </div>
+
+          <!-- Text Input Fallback Box -->
+          <div class="text-fallback-box hidden" id="textInputBox">
+            <div class="input-group">
+              <input type="text" id="textQueryInput" placeholder="Type query (e.g. मैनहट्टन परियोजना क्या थी?)" />
+              <button class="btn-primary" id="submitTextBtn">Search</button>
+            </div>
+          </div>
+
+          <!-- Transcript Box -->
+          <div class="transcript-box" id="transcriptContainer">
+            <div class="transcript-header">
+              <span class="section-tag">TRANSCRIPTION</span>
+              <span class="lang-tag" id="detectedLangTag">Standby</span>
+            </div>
+            <div class="transcript-text" id="transcriptText">Awaiting voice or text input...</div>
+          </div>
+        </div>
+
+        <!-- Latency Waterfall Telemetry Component -->
+        <div class="telemetry-card">
+          <div class="card-header">
+            <h3>LIVE REQUEST LATENCY</h3>
+            <div class="telemetry-pill-group">
+              <div class="telemetry-pill live">
+                <span class="pill-title">LIVE RETRIEVAL CORE</span>
+                <span class="pill-val" id="liveCoreVal">-- ms</span>
+                <span class="pill-sub">Single-request measurement</span>
+              </div>
+              <div class="telemetry-pill benchmark">
+                <span class="pill-title">OFFLINE BENCHMARK</span>
+                <span class="pill-val" id="benchmarkP95Val">P95: 142.9 ms</span>
+                <span class="pill-sub">3,037-query aggregate</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="waterfall-container">
+            <!-- Group 1: Voice / Input -->
+            <div class="wf-group-label">VOICE / INPUT</div>
+            <div class="waterfall-row" id="wfRowStt">
+              <div class="wf-label"><span>Speech-to-Text (Sarvam Saaras v3)</span> <code id="wfSttTime">0.0 ms</code></div>
+              <div class="wf-bar-bg"><div class="wf-bar bar-stt" id="barStt" style="width: 0%"></div></div>
+            </div>
+            <div class="waterfall-row">
+              <div class="wf-label"><span>Input Guardrail</span> <code id="wfGuardrailTime">0.0 ms</code></div>
+              <div class="wf-bar-bg"><div class="wf-bar bar-gr" id="barGuardrail" style="width: 0%"></div></div>
+            </div>
+
+            <!-- Group 2: Retrieval Core -->
+            <div class="wf-group-label highlight-retrieval">RETRIEVAL CORE</div>
+            <div class="waterfall-row highlight-core">
+              <div class="wf-label"><span>E5 Dense Search (k=15)</span> <code id="wfRetrievalTime">0.0 ms</code></div>
+              <div class="wf-bar-bg"><div class="wf-bar bar-retrieval" id="barRetrieval" style="width: 0%"></div></div>
+            </div>
+            <div class="waterfall-row highlight-core">
+              <div class="wf-label"><span>CrossEncoder Rerank (Top-5)</span> <code id="wfRerankTime">0.0 ms</code></div>
+              <div class="wf-bar-bg"><div class="wf-bar bar-rerank" id="barRerank" style="width: 0%"></div></div>
+            </div>
+            <div class="waterfall-row highlight-core">
+              <div class="wf-label"><span>Evidence Gate Filter (T=0.80)</span> <code id="wfGateTime">0.0 ms</code></div>
+              <div class="wf-bar-bg"><div class="wf-bar bar-gate" id="barGate" style="width: 0%"></div></div>
+            </div>
+
+            <!-- Group 3: Generation -->
+            <div class="wf-group-label">GENERATION</div>
+            <div class="waterfall-row">
+              <div class="wf-label"><span>Gemini LLM Generation</span> <code id="wfGenTime">0.0 ms</code></div>
+              <div class="wf-bar-bg"><div class="wf-bar bar-gen" id="barGen" style="width: 0%"></div></div>
+            </div>
+
+            <div class="waterfall-divider"></div>
+
+            <!-- Total End-to-End -->
+            <div class="waterfall-row total-row">
+              <div class="wf-label font-bold"><span>Total End-to-End</span> <code id="wfTotalTime">0.0 ms</code></div>
+              <div class="wf-bar-bg"><div class="wf-bar bar-total" id="barTotal" style="width: 0%"></div></div>
+            </div>
+          </div>
+
+          <div class="telemetry-footer">
+            <span class="info-icon">ℹ</span>
+            <span>Offline benchmark = 3,037-query aggregate. Live latency = current single-request measurement and includes runtime GPU/model overhead.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Grounded Answer, Sources & System Benchmark -->
+      <section class="right-section">
+        <!-- Answer Display Card -->
+        <div class="answer-card">
+          <div class="card-header">
+            <h3>GENERATED RESPONSE</h3>
+            <div class="grounding-badge idle" id="groundingBadge">
+              <span class="badge-dot"></span>
+              <span id="groundingBadgeText">STANDBY</span>
+            </div>
+          </div>
+          <div class="answer-body" id="answerBody">
+            <p class="placeholder-text">Speak or enter a question to view the grounded RAG answer, source attribution, and real-time latency waterfall.</p>
+          </div>
+          <div class="answer-meta" id="answerMeta">Evidence-backed response · Awaiting query</div>
+        </div>
+
+        <!-- Source Attribution Cards -->
+        <div class="sources-card">
+          <div class="card-header">
+            <h3>SOURCE ATTRIBUTION</h3>
+            <span class="source-count" id="sourceCount">0 retrieved passages</span>
+          </div>
+          <div class="sources-list" id="sourcesList">
+            <div class="empty-sources">No supporting passages loaded.</div>
+          </div>
+        </div>
+
+        <!-- 3,037-Query Benchmark Panel -->
+        <div class="benchmark-card">
+          <div class="card-header benchmark-header">
+            <div>
+              <h3>SYSTEM BENCHMARK</h3>
+              <div class="benchmark-subtitle">3,037-query retrieval benchmark · E5 + CrossEncoder · k=15</div>
+            </div>
+            <div class="benchmark-header-right">
+              <span class="badge-dataset">OFFLINE BENCHMARK</span>
+              <span class="benchmark-note">Aggregate benchmark — 3,037 valid queries</span>
+            </div>
+          </div>
+          <div class="benchmark-config-bar">
+            <span><strong>Model:</strong> E5-Base + CrossEncoder</span>
+            <span><strong>Chunking:</strong> Adaptive Parent-Child</span>
+            <span><strong>Pool:</strong> k=15</span>
+            <span><strong>Gate:</strong> T=0.80</span>
+          </div>
+          <div class="benchmark-grid">
+            <div class="metric-box">
+              <div class="metric-title">Recall@1</div>
+              <div class="metric-val" id="bmRecall1">34.84%</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-title">Recall@5</div>
+              <div class="metric-val" id="bmRecall5">71.78%</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-title">MRR</div>
+              <div class="metric-val" id="bmMrr">0.4902</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-title">P50 Latency</div>
+              <div class="metric-val" id="bmP50">87.6 ms</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-title">P95 Latency</div>
+              <div class="metric-val" id="bmP95">142.9 ms</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-title">P100 (Max)</div>
+              <div class="metric-val" id="bmP100">369.3 ms</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
