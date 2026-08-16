@@ -108,4 +108,4 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG â€
     )
 
 if __name__ == "__main__":
-    demo.launch(ssr=False)
+    demo.launch()
