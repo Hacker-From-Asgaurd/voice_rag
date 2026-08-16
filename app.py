@@ -25,4 +25,4 @@ with gr.Blocks(title="VOICE RAG — HH Goa 2026") as demo:
 app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio")
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=7860, show_api=False, share=False)
+    demo.launch(share=True)
