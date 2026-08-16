@@ -73,4 +73,4 @@ with gr.Blocks(css=custom_css, title="VOICE RAG — HH Goa 2026") as demo:
 app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio")
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(share=True)
