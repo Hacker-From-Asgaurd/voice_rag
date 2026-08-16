@@ -33,8 +33,8 @@ from harness.guardrails import (
     ABSTENTION_TEXT,
 )
 
-# Calibrated Evidence Threshold (Platt-scaled relevance probability >= 0.50 corresponds to positive CrossEncoder score)
-EVIDENCE_RELEVANCE_THRESHOLD = 0.50
+# Evidence Gate Threshold (Locked Production Configuration: T = 0.80)
+EVIDENCE_RELEVANCE_THRESHOLD = 0.80
 MIN_RERANK_SCORE = 0.80
 
 # Retrieval & Reranker Budgets
@@ -45,7 +45,7 @@ FINAL_RESULTS = 5
 class RAGPipeline:
     """
     Production-grade Grounded RAG Pipeline with End-to-End Typed Trace Orchestration,
-    Fitted Platt Relevance Scaling, and Post-Generation Grounding Verification.
+    Calibrated Evidence Gate (T=0.80), and Post-Generation Grounding Verification.
     """
 
     def __init__(self):
@@ -85,17 +85,16 @@ class RAGPipeline:
 
     def filter_evidence(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        Filters evidence using fitted Platt scaling relevance calibration.
-        Allows top cross-lingual candidates (score >= -2.0) into context for Gemini grounding verification.
+        Filters evidence using calibrated threshold T=0.80.
         """
         filtered = []
         for r in results:
             raw_score = float(r.get("rerank_score", r.get("score", 0.0)))
             calibrated_prob = calibrate_crossencoder_score(raw_score)
             r["calibrated_confidence"] = calibrated_prob
-            if raw_score >= -2.0:
+            if calibrated_prob >= EVIDENCE_RELEVANCE_THRESHOLD or raw_score >= MIN_RERANK_SCORE:
                 filtered.append(r)
-        return filtered[:3] if filtered else []
+        return filtered[:FINAL_RESULTS]
 
     def run(self, request: QueryRequest) -> PipelineResponse:
         trace_id = str(uuid.uuid4())
