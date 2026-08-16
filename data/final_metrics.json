@@ -1,0 +1,10 @@
+{
+  "queries": 3037,
+  "recall_1": 35.12,
+  "recall_5": 72.1,
+  "mrr": 0.493,
+  "p50_latency_ms": 87.61,
+  "p70_latency_ms": 99.81,
+  "p95_latency_ms": 142.92,
+  "p100_latency_ms": 369.32
+}

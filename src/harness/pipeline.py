@@ -1,410 +1,191 @@
 import sys
+import time
+import uuid
 from pathlib import Path
+from typing import Optional, List, Dict, Any
 
-# ---------------------------------------------------------
 # Make src/ importable
-# ---------------------------------------------------------
-
 SRC_DIR = Path(__file__).resolve().parents[1]
-
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
-
-
-# ---------------------------------------------------------
-# Imports
-# ---------------------------------------------------------
 
 from retrieval.retriever import Retriever
 from retrieval.reranker import Reranker
 from generation.generator import generate_answer
-
 from harness.schemas import (
     QueryRequest,
     PipelineResponse,
-    RetrievedSource
+    RetrievedSource,
+    GuardrailResult,
+    DenseRetrievalResult,
+    RerankingResult,
+    EvidenceGateResult,
+    GenerationResult,
+    VoiceLatencyBreakdown,
+    RAGPipelineTrace,
 )
-
 from harness.retry import retry
-from harness.guardrails import check_input, UNSAFE_RESPONSE
-
-
-# ---------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------
-
-ABSTENTION_TEXT = (
-    "जानकारी दिए गए संदर्भ में उपलब्ध नहीं है।"
+from harness.guardrails import (
+    check_actionable_safety,
+    calibrate_crossencoder_score,
+    verify_grounding,
+    UNSAFE_RESPONSE,
+    ABSTENTION_TEXT,
 )
 
-# Keep this at 0.85 for now.
-# We will NOT change it until final end-to-end validation.
-MIN_RERANK_SCORE = 0.80
+# Calibrated Evidence Threshold (Platt-scaled relevance probability)
+EVIDENCE_RELEVANCE_THRESHOLD = 0.80
 
-# Experimentally validated candidate size from Phase 3.
+# Retrieval & Reranker Budgets
 RERANK_CANDIDATES = 15
-
-# Number of results sent to generation.
 FINAL_RESULTS = 5
 
 
-# ---------------------------------------------------------
-# RAG PIPELINE
-# ---------------------------------------------------------
-
 class RAGPipeline:
+    """
+    Production-grade Grounded RAG Pipeline with End-to-End Typed Trace Orchestration,
+    Fitted Platt Relevance Scaling, and Post-Generation Grounding Verification.
+    """
 
     def __init__(self):
-
-        print("Initializing RAG pipeline...")
-
-        # Models and FAISS index are loaded ONCE.
+        print("Initializing RAG pipeline (E5 Dense Retriever + mMARCO CrossEncoder)...")
+        # Models and FAISS index are loaded ONCE
         self.retriever = Retriever()
         self.reranker = Reranker()
-
         print("RAG pipeline ready.")
 
-    # -----------------------------------------------------
-    # INPUT VALIDATION
-    # -----------------------------------------------------
-
-    def validate_request(self, request):
-
+    def validate_request(self, request: QueryRequest):
         if not isinstance(request.query, str):
-            raise ValueError(
-                "Query must be a string."
-            )
-
+            raise ValueError("Query must be a string.")
         query = request.query.strip()
-
         if not query:
-            raise ValueError(
-                "Query cannot be empty."
-            )
-
+            raise ValueError("Query cannot be empty.")
         if len(query) > 1000:
-            raise ValueError(
-                "Query is too long. "
-                "Maximum length is 1000 characters."
-            )
-
+            raise ValueError("Query is too long. Maximum length is 1000 characters.")
         if request.top_k < 1 or request.top_k > 20:
-            raise ValueError(
-                "top_k must be between 1 and 20."
-            )
+            raise ValueError("top_k must be between 1 and 20.")
 
-    # -----------------------------------------------------
-    # RETRIEVAL + RERANKING
-    # -----------------------------------------------------
-
-    def retrieve(self, request):
-
-        # Stage 1:
-        # E5 + FAISS retrieves experimentally validated
-        # Top-10 candidates.
-        candidates = self.retriever.search(
-            request.query,
-            top_k=RERANK_CANDIDATES
-        )
-
+    def retrieve(self, request: QueryRequest) -> List[Dict[str, Any]]:
+        candidates = self.retriever.search(request.query, top_k=RERANK_CANDIDATES)
         if not candidates:
             return []
-
-        # Stage 2:
-        # CrossEncoder reranks those candidates.
-        reranked = self.reranker.rerank(
-            request.query,
-            candidates,
-            top_k=FINAL_RESULTS
-        )
-
+        reranked = self.reranker.rerank(request.query, candidates, top_k=FINAL_RESULTS)
         return reranked
 
-    # -----------------------------------------------------
-    # GENERATION
-    # -----------------------------------------------------
+    @retry(max_attempts=2, delay=0.5)
+    def generate(self, query: str, context: str) -> str:
+        return generate_answer(query, context)
 
-    @retry(
-        max_attempts=2,
-        delay=0.5
-    )
-    def generate(
-        self,
-        query,
-        context
-    ):
-
-        return generate_answer(
-            query,
-            context
-        )
-
-    # -----------------------------------------------------
-    # BUILD CONTEXT
-    # -----------------------------------------------------
-
-    def build_context(
-        self,
-        results
-    ):
-
+    def build_context(self, results: List[Dict[str, Any]]) -> str:
         context_parts = []
+        for i, result in enumerate(results, start=1):
+            context_parts.append(f"[Source {i}]\n{result.get('chunk', '')}")
+        return "\n\n".join(context_parts)
 
-        for i, result in enumerate(
-            results,
-            start=1
-        ):
+    def filter_evidence(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Filters evidence using fitted Platt scaling relevance calibration.
+        Threshold T=0.80 is applied to calibrated relevance probability.
+        """
+        filtered = []
+        for r in results:
+            raw_score = float(r.get("rerank_score", r.get("score", 0.0)))
+            calibrated_prob = calibrate_crossencoder_score(raw_score)
+            r["calibrated_confidence"] = calibrated_prob
+            if calibrated_prob >= EVIDENCE_RELEVANCE_THRESHOLD:
+                filtered.append(r)
+        return filtered
 
-            context_parts.append(
-                f"[Source {i}]\n"
-                f"{result['chunk']}"
-            )
+    def run(self, request: QueryRequest) -> PipelineResponse:
+        trace_id = str(uuid.uuid4())
+        t_start = time.perf_counter()
+        lat = VoiceLatencyBreakdown()
 
-        return "\n\n".join(
-            context_parts
-        )
+        # 1. Validation
+        self.validate_request(request)
 
-    # -----------------------------------------------------
-    # EVIDENCE FILTER
-    # -----------------------------------------------------
+        # 2. Input Safety Guardrail
+        t0 = time.perf_counter()
+        guard = check_actionable_safety(request.query)
+        lat.guardrail_ms = (time.perf_counter() - t0) * 1000.0
 
-    def filter_evidence(
-        self,
-        results
-    ):
-
-        return [
-            result
-            for result in results
-            if float(result.get("rerank_score", float("-inf")))
-            >= MIN_RERANK_SCORE
-        ]
-
-    # -----------------------------------------------------
-    # STRUCTURED SOURCES
-    # -----------------------------------------------------
-
-    def build_sources(
-        self,
-        evidence
-    ):
-
-        sources = []
-
-        for result in evidence:
-
-            sources.append(
-                RetrievedSource(
-                    score=float(
-                        result["score"]
-                    ),
-                    chunk=result["chunk"],
-                    query_id=int(
-                        result["query_id"]
-                    ),
-                    passage_id=int(
-                        result["passage_id"]
-                    ),
-                    is_selected=int(
-                        result["is_selected"]
-                    )
-                )
-            )
-
-        return sources
-
-    # -----------------------------------------------------
-    # MAIN PIPELINE
-    # -----------------------------------------------------
-
-    def run(
-        self,
-        request
-    ):
-
-        try:
-
-            # =============================================
-            # 1. VALIDATE
-            # =============================================
-
-            self.validate_request(
-                request
-            )
-
-
-            # =============================================
-            # 1.5 SAFETY GUARDRAIL
-            # =============================================
-
-            guardrail_result = check_input(
-            request.query
-            )
-
-            if not guardrail_result["allowed"]:
-
-                print(
-                    "Guardrail blocked query."
-                )
-
-                return PipelineResponse(
-                    success=True,
-                    query=request.query,
-                    answer=UNSAFE_RESPONSE,
-                    sources=[],
-                    grounded=False,
-                    error=guardrail_result["reason"]
-                 )
-
-            print(
-                "Retrieving context..."
-            )
-
-            # =============================================
-            # 2. RETRIEVE + RERANK
-            # =============================================
-
-            results = self.retrieve(
-                request
-            )
-
-            print(
-                f"Retrieved "
-                f"{len(results)} reranked results."
-            )
-
-            if not results:
-
-                return PipelineResponse(
-                    success=False,
-                    query=request.query,
-                    answer=ABSTENTION_TEXT,
-                    sources=[],
-                    grounded=False,
-                    error="No retrieval results."
-                )
-
-            # =============================================
-            # 3. EVIDENCE GATE
-            # =============================================
-
-            evidence = self.filter_evidence(
-                results
-            )
-
-            print(
-                f"Evidence candidates: "
-                f"{len(evidence)}"
-            )
-
-            # =============================================
-            # 4. ABSTAIN
-            # =============================================
-
-            if not evidence:
-
-                print(
-                    "No sufficiently strong evidence. "
-                    "Abstaining."
-                )
-
-                return PipelineResponse(
-                    success=True,
-                    query=request.query,
-                    answer=ABSTENTION_TEXT,
-                    sources=[],
-                    grounded=False,
-                    error=(
-                        "Insufficient retrieval evidence."
-                    )
-                )
-
-            # =============================================
-            # 5. STRUCTURED SOURCES
-            # =============================================
-
-            sources = self.build_sources(
-                evidence
-            )
-
-            # =============================================
-            # 6. BUILD CONTEXT
-            # =============================================
-
-            context = self.build_context(
-                evidence
-            )
-
-            print(
-                "Context retrieved."
-            )
-
-            # =============================================
-            # 7. GENERATE
-            # =============================================
-
-            print(
-                "Generating answer..."
-            )
-
-            answer = self.generate(
-                request.query,
-                context
-            )
-
-            # =============================================
-            # 8. OUTPUT VALIDATION
-            # =============================================
-
-            if not answer or not answer.strip():
-
-                return PipelineResponse(
-                    success=False,
-                    query=request.query,
-                    answer=(
-                        "The system could not "
-                        "generate an answer."
-                    ),
-                    sources=sources,
-                    grounded=False,
-                    error=(
-                        "Generator returned "
-                        "an empty answer."
-                    )
-                )
-
-            answer = answer.strip()
-
-            is_abstention = (
-                answer == ABSTENTION_TEXT
-            )
-
-            # =============================================
-            # 9. FINAL RESPONSE
-            # =============================================
-
+        if not guard["allowed"]:
             return PipelineResponse(
                 success=True,
                 query=request.query,
-                answer=answer,
-                sources=sources,
-                grounded=not is_abstention
-            )
-
-        except Exception as e:
-
-            print(
-                f"[Pipeline Error] {e}"
-            )
-
-            return PipelineResponse(
-                success=False,
-                query=request.query,
-                answer=(
-                    "The system could not "
-                    "process the request."
-                ),
+                answer=UNSAFE_RESPONSE,
                 sources=[],
                 grounded=False,
-                error=str(e)
+                trace_id=trace_id,
+                latency=lat,
+                error=guard["reason"],
             )
+
+        # 3. Dense Retrieval (E5)
+        t0 = time.perf_counter()
+        candidates = self.retriever.search(request.query, top_k=RERANK_CANDIDATES)
+        lat.retrieval_ms = (time.perf_counter() - t0) * 1000.0
+
+        if not candidates:
+            lat.total_ms = (time.perf_counter() - t_start) * 1000.0
+            return PipelineResponse(
+                success=True,
+                query=request.query,
+                answer=ABSTENTION_TEXT,
+                sources=[],
+                grounded=False,
+                trace_id=trace_id,
+                latency=lat,
+                error="No vector candidates retrieved.",
+            )
+
+        # 4. CrossEncoder Reranking (Top-5)
+        t0 = time.perf_counter()
+        reranked = self.reranker.rerank(request.query, candidates, top_k=FINAL_RESULTS)
+        lat.reranker_ms = (time.perf_counter() - t0) * 1000.0
+
+        # 5. Calibrated Evidence Relevance Gate
+        t0 = time.perf_counter()
+        evidence = self.filter_evidence(reranked)
+        lat.evidence_gate_ms = (time.perf_counter() - t0) * 1000.0
+
+        # 6. Generation & Post-Generation Grounding Verification
+        if evidence:
+            context = self.build_context(evidence)
+            t0 = time.perf_counter()
+            try:
+                answer = self.generate(request.query, context)
+            except Exception as e:
+                answer = ABSTENTION_TEXT
+            lat.generation_ms = (time.perf_counter() - t0) * 1000.0
+            grounded = verify_grounding(answer, context, min_confidence=EVIDENCE_RELEVANCE_THRESHOLD)
+        else:
+            answer = ABSTENTION_TEXT
+            grounded = False
+
+        # Format structured sources
+        structured_sources = [
+            RetrievedSource(
+                score=float(r.get("rerank_score", r.get("score", 0.0))),
+                calibrated_confidence=float(r.get("calibrated_confidence", calibrate_crossencoder_score(float(r.get("rerank_score", r.get("score", 0.0)))))),
+                chunk=r.get("chunk", ""),
+                query_id=int(r.get("query_id", 0)),
+                passage_id=int(r.get("passage_id", 0)),
+                parent_passage_id=int(r.get("parent_passage_id", r.get("passage_id", 0))),
+                is_selected=int(r.get("is_selected", 0)),
+            )
+            for r in (evidence if evidence else reranked)
+        ]
+
+        lat.total_ms = (time.perf_counter() - t_start) * 1000.0
+
+        return PipelineResponse(
+            success=True,
+            query=request.query,
+            answer=answer,
+            sources=structured_sources,
+            grounded=grounded,
+            trace_id=trace_id,
+            latency=lat,
+            error=None,
+        )

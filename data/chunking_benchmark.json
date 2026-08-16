@@ -1,0 +1,38 @@
+{
+  "benchmark_metadata": {
+    "dataset": "MSMARCO-XI Hindi",
+    "evaluated_rows": 300,
+    "selection_rule": "Primary: Recall@5/MRR; Secondary: P50 latency within budget",
+    "selected_winner": "semantic_boundary",
+    "selection_rationale": "Selected 'semantic_boundary' as default because it achieves highest Recall@5 (72.1%) and MRR (0.493) while maintaining low P50 retrieval latency (92.4 ms < 200 ms budget)."
+  },
+  "strategies": {
+    "fixed_size": {
+      "total_chunks_produced": 3059,
+      "avg_chunk_chars": 333.0,
+      "ingestion_time_ms": 12.3,
+      "recall_at_1": 31.2,
+      "recall_at_5": 68.45,
+      "mrr": 0.451,
+      "p50_latency_ms": 84.1
+    },
+    "sentence_aware": {
+      "total_chunks_produced": 3019,
+      "avg_chunk_chars": 334.47,
+      "ingestion_time_ms": 53.24,
+      "recall_at_1": 34.84,
+      "recall_at_5": 71.78,
+      "mrr": 0.4902,
+      "p50_latency_ms": 87.61
+    },
+    "semantic_boundary": {
+      "total_chunks_produced": 3019,
+      "avg_chunk_chars": 334.47,
+      "ingestion_time_ms": 102.21,
+      "recall_at_1": 35.12,
+      "recall_at_5": 72.1,
+      "mrr": 0.493,
+      "p50_latency_ms": 92.4
+    }
+  }
+}

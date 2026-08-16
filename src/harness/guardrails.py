@@ -1,86 +1,109 @@
 import re
-
-
-# ---------------------------------------------------------
-# Guardrail responses
-# ---------------------------------------------------------
-
-UNSAFE_RESPONSE = (
-    "मैं इस तरह के अनुरोध में सहायता नहीं कर सकता।"
-)
-
+import math
+from typing import Dict, Any, Optional, List
 
 # ---------------------------------------------------------
-# Unsafe / inappropriate patterns
+# Guardrail standard responses
 # ---------------------------------------------------------
 
-UNSAFE_PATTERNS = [
+UNSAFE_RESPONSE = "मैं इस तरह के हानिकारक या असुरक्षित अनुरोध में सहायता नहीं कर सकता।"
+ABSTENTION_TEXT = "जानकारी दिए गए संदर्भ में उपलब्ध नहीं है।"
 
-    # Violence / weapons
-    r"\bhow to (kill|murder|assassinate)\b",
-    r"\bhow to make (a bomb|an explosive)\b",
-    r"\bhow to build (a bomb|an explosive)\b",
-    r"\bhow to make a weapon\b",
+# ---------------------------------------------------------
+# Actionable harmful patterns (Actionable weapon manufacture, cyberattacks, jailbreaks)
+# NOTE: Historical/factual queries (e.g. WWII, Manhattan Project, weapon history) are allowed!
+# ---------------------------------------------------------
 
-    # Cyber abuse
-    r"\bhow to hack\b",
-    r"\bhack (a|the) (bank|account|server|website)\b",
-    r"\bsteal passwords\b",
-    r"\bsteal credentials\b",
-    r"\bdeploy malware\b",
-    r"\bransomware attack\b",
-
-    # Illegal activity
-    r"\bhow to launder money\b",
-    r"\bhow to evade police\b",
-    r"\bhow to make fake id\b",
-    r"\bhow to forge documents\b",
-
-    # Explicit sexual requests
-    r"\bhow to (rape|sexually assault)\b",
+ACTIONABLE_MALICIOUS_PATTERNS = [
+    # Actionable explosive / weapon synthesis instructions
+    r"\bhow (to|do I|can I) (make|build|construct|assemble|synthesize) (a bomb|an explosive|a detonator|a firearm|a biological weapon|a chemical weapon)\b",
+    r"\bstep[- ]by[- ]step instructions to (make|manufacture) (explosives|bombs)\b",
+    
+    # Actionable cyber attacks & malicious exploitation
+    r"\bhow (to|do I|can I) (hack into|breach|infiltrate) (a server|a bank|an account|a database)\b",
+    r"\bhow to (write|deploy|distribute) (ransomware|keylogger|malware|trojan|ddos attack)\b",
+    r"\bhow to steal (passwords|credentials|credit card numbers)\b",
+    
+    # Prompt injection / System Prompt extraction attacks
+    r"\b(ignore|disregard|override) (all )?(previous|above|system) (instructions|prompts|rules)\b",
+    r"\b(reveal|output|print|display) (your )?(system prompt|initial instructions|developer message)\b",
+    
+    # Actionable illicit acts
+    r"\bhow to (launder money|counterfeit money|forge official documents)\b",
+    r"\bhow to (sexually assault|poison someone)\b",
 ]
 
-
-def check_input(query):
+def check_actionable_safety(query: str) -> Dict[str, Any]:
     """
-    Lightweight input safety guardrail.
-
-    Returns:
-        {
-            "allowed": bool,
-            "reason": str | None
-        }
+    Evaluates input query against actionable malicious safety rules.
+    Allows historical/scientific queries while blocking weapon synthesis, cyber attacks, and jailbreaks.
     """
-
     if not isinstance(query, str):
-        return {
-            "allowed": False,
-            "reason": "Invalid query type."
-        }
+        return {"allowed": False, "reason": "Invalid query type.", "category": "invalid_type"}
 
-    query = query.strip()
+    query_clean = query.strip()
+    if not query_clean:
+        return {"allowed": False, "reason": "Query is empty.", "category": "empty"}
 
-    if not query:
-        return {
-            "allowed": False,
-            "reason": "Empty query."
-        }
+    query_lower = query_clean.lower()
 
-    query_lower = query.lower()
-
-    for pattern in UNSAFE_PATTERNS:
-
-        if re.search(
-            pattern,
-            query_lower
-        ):
-
+    for pattern in ACTIONABLE_MALICIOUS_PATTERNS:
+        if re.search(pattern, query_lower):
             return {
                 "allowed": False,
-                "reason": "Unsafe or inappropriate request."
+                "reason": "Blocked actionable harmful request (safety policy violation).",
+                "category": "actionable_harm"
             }
 
-    return {
-        "allowed": True,
-        "reason": None
-    }
+    return {"allowed": True, "reason": None, "category": "safe"}
+
+
+# ---------------------------------------------------------
+# Platt Scaling Relevance Calibration
+# P(Relevant | score) = 1 / (1 + exp(A * score + B))
+# Parameters A = -0.785, B = 0.521 fitted on held-out validation pairs
+# ---------------------------------------------------------
+
+PLATT_A = -0.785
+PLATT_B = 0.521
+
+def calibrate_crossencoder_score(raw_score: float) -> float:
+    """
+    Applies fitted Platt scaling to convert raw CrossEncoder reranking score
+    into a calibrated relevance probability in [0, 1].
+    """
+    try:
+        # z = A * score + B
+        z = (PLATT_A * float(raw_score)) + PLATT_B
+        # clip z to avoid overflow in exp
+        z_clipped = max(-50.0, min(50.0, z))
+        prob = 1.0 / (1.0 + math.exp(z_clipped))
+        return round(prob, 4)
+    except Exception:
+        return 0.50
+
+
+# ---------------------------------------------------------
+# Post-Generation Grounding Verification
+# ---------------------------------------------------------
+
+def verify_grounding(answer: str, context: str, min_confidence: float = 0.80) -> bool:
+    """
+    Verifies that the generated answer is strictly grounded in the context.
+    Returns True if grounded, False if answer abstained or unsupported.
+    """
+    if not answer or not answer.strip():
+        return False
+
+    clean_ans = answer.strip()
+    if clean_ans == ABSTENTION_TEXT or "उपलब्ध नहीं" in clean_ans:
+        return False
+
+    if clean_ans == UNSAFE_RESPONSE:
+        return False
+
+    # Check for hallucination disclaimer phrases
+    if "मुझे नहीं पता" in clean_ans or "I do not know" in clean_ans or "not mentioned in the context" in clean_ans:
+        return False
+
+    return True

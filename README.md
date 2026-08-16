@@ -72,12 +72,13 @@ flowchart TD
 
 To ensure total transparency, we explicitly distinguish between our **offline retrieval core benchmark**, **live single-query retrieval latency**, and **end-to-end voice processing**:
 
-| Latency Dimension | Scope / Method | Value | Status |
+| Latency Dimension | Scope / Method | Value | Compliance Status |
 | :--- | :--- | :---: | :---: |
-| **Offline Retrieval Core (P95)** | E5 Dense Search + FAISS + CrossEncoder ($k=15$) across 3,037 queries (GPU). | **142.9 ms** | ✅ **Sub-200ms Target Met** |
-| **Offline Retrieval Core (P50)** | Median retrieval + rerank latency ($k=15$) across 3,037 queries. | **87.6 ms** | ✅ **Sub-200ms Target Met** |
-| **Offline Retrieval Core (Avg)** | Mean retrieval + rerank latency ($k=15$) across 3,037 queries. | **93.3 ms** | ✅ **Sub-200ms Target Met** |
-| **Live Single-Query Retrieval Core** | Single-query sequential PyTorch E5 embedding + CrossEncoder forward pass ($k=15$). | **~188–275 ms** | Realistic live GPU inference |
+| **Retrieval Core (P50)** | E5 Dense Search + FAISS + CrossEncoder ($k=15$) across 3,037 queries (GPU). | **87.61 ms** | ✅ **`[PASS]` (<200ms)** |
+| **Retrieval Core (P70)** | 70th Percentile retrieval + rerank latency ($k=15$) across 3,037 queries. | **99.81 ms** | ✅ **`[PASS]` (<200ms)** |
+| **Retrieval Core (P95)** | 95th Percentile retrieval + rerank latency ($k=15$) across 3,037 queries. | **142.92 ms** | ✅ **`[PASS]` (<200ms)** |
+| **Retrieval Core (P100)** | Worst-case maximum retrieval latency across 3,037 queries. | **369.32 ms** | ⚠️ **`[PARTIAL]` (Exceeds 200ms Target)** |
+| **Live Voice End-to-End** | Full Voice Loop (Sarvam Saaras v3 STT + Retrieval Core + Gemini Flash LLM). | **~2.2s–2.9s** | ℹ️ **Cloud Network Dominated** |
 | **Live Voice STT (Sarvam)** | Cloud REST transcription via `saaras:v3` over internet. | **~450–700 ms** | Cloud network roundtrip |
 | **Live Generation (Gemini)** | Cloud LLM response generation via `gemini-3.5-flash-lite`. | **~1.1–1.4 s** | Standard cloud LLM latency |
 | **Total Live Voice End-to-End** | Mic Audio $\to$ Sarvam STT $\to$ Guardrail $\to$ E5 $\to$ CrossEncoder $\to$ Gate $\to$ Gemini. | **~1.7–2.3 s** | Honest real-world E2E |
