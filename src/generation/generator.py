@@ -112,7 +112,11 @@ ANSWER
 
     response = client.models.generate_content(
         model=MODEL_NAME,
-        contents=prompt
+        contents=prompt,
+        config={
+            "max_output_tokens": 120,
+            "temperature": 0.0,
+        }
     )
 
     if not response.text:
