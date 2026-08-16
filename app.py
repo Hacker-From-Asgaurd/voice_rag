@@ -18,11 +18,11 @@ sys.modules["fastapi_main"] = fastapi_main
 spec.loader.exec_module(fastapi_main)
 fastapi_app = fastapi_main.app
 
-# Mount Gradio Blocks wrapper for Hugging Face Spaces
+# Mount Gradio Blocks wrapper with custom title
 with gr.Blocks(title="VOICE RAG — HH Goa 2026") as demo:
-    pass
+    gr.HTML("<iframe src='/' style='width:100%; height:100vh; border:none;'></iframe>")
 
 app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio")
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(ssr=False)
