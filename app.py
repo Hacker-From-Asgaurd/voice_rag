@@ -108,7 +108,7 @@ def core_process(audio_file, text_input):
         for idx, s in enumerate(sources, 1):
             raw_score = float(get_field(s, "score", 0.0))
             calib_conf = float(get_field(s, "calibrated_confidence", calibrate_crossencoder_score(raw_score)))
-            pass_badge = "🟢 PASS (≥0.80)" if calib_conf >= 0.80 else "🟡 FILTERED (<0.80)"
+            pass_badge = "🟢 PASS (≥0.50)" if calib_conf >= 0.50 else "🟡 FILTERED (<0.50)"
             
             p_id = get_field(s, "passage_id", "N/A")
             raw_chunk = get_field(s, "chunk", "")
@@ -132,7 +132,7 @@ def core_process(audio_file, text_input):
 | **2. Actionable Safety Guardrail** | `{guardrail_ms:.1f} ms` | < 1 ms | ✅ Pass |
 | **3. E5 Dense Vector Search (k=15)** | `{retrieval_ms:.1f} ms` | < 120 ms | ✅ Sub-100ms |
 | **4. mMARCO CrossEncoder Reranker (Top-5)** | `{reranker_ms:.1f} ms` | < 60 ms | ✅ Sub-60ms |
-| **5. Fitted Platt Relevance Gate (T=0.80)** | `{evidence_gate_ms:.1f} ms` | < 1 ms | ✅ Calibrated |
+| **5. Fitted Platt Relevance Gate (T=0.50)** | `{evidence_gate_ms:.1f} ms` | < 1 ms | ✅ Calibrated |
 | **👉 RETRIEVAL CORE TOTAL (FAISS + Reranker)** | **`{core_ms:.1f} ms`** | **< 200 ms Target** | **{'✅ WITHIN BUDGET' if core_ms <= 200 else '⚠️ >200ms'}** |
 | **6. Gemini 3.5 Flash Grounded Generation** | `{generation_ms:.1f} ms` | Cloud LLM API | ✅ Generation |
 | **⏱️ TOTAL VOICE END-TO-END TURNAROUND** | **`{total_ms:.1f} ms`** | Full Voice Loop | ℹ️ Cloud-Dominated |
@@ -171,7 +171,7 @@ h1, h2, h3 { color: #38bdf8 !important; font-weight: 700 !important; }
 with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG — HH Goa 2026") as demo:
     gr.Markdown(
         "# 🎙️ VOICE RAG — HH GOA 2026\n"
-        "**Multilingual Grounded Voice RAG** · `Sarvam Saaras v3` · `Multilingual E5-Base (k=15)` · `mMARCO CrossEncoder` · `Platt Gate T=0.80`\n"
+        "**Multilingual Grounded Voice RAG** · `Sarvam Saaras v3` · `Multilingual E5-Base (k=15)` · `mMARCO CrossEncoder` · `Platt Gate T=0.50`\n"
         "Engineered on **50,311 MSMARCO-XI Hindi Passages** with Parent-Child Indexing, Actionable Safety Guardrails, and Strict Grounding Verification."
     )
 

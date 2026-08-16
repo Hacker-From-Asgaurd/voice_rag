@@ -33,8 +33,8 @@ from harness.guardrails import (
     ABSTENTION_TEXT,
 )
 
-# Calibrated Evidence Threshold (Platt-scaled relevance probability)
-EVIDENCE_RELEVANCE_THRESHOLD = 0.80
+# Calibrated Evidence Threshold (Platt-scaled relevance probability >= 0.50 corresponds to positive CrossEncoder score)
+EVIDENCE_RELEVANCE_THRESHOLD = 0.50
 
 # Retrieval & Reranker Budgets
 RERANK_CANDIDATES = 15
