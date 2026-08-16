@@ -58,6 +58,12 @@ class Retriever:
     def search(self, query: str, top_k: int = 15) -> List[Dict[str, Any]]:
         prefixed_query = "query: " + query
 
+        if torch.cuda.is_available() and getattr(self.model, "device", None) is not None and self.model.device.type != "cuda":
+            try:
+                self.model.to("cuda")
+            except Exception:
+                pass
+
         with torch.inference_mode():
             query_embedding = self.model.encode(
                 [prefixed_query],
