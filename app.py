@@ -22,6 +22,13 @@ print("Initializing Voice RAG Pipeline...")
 voice_pipeline = VoiceRAGPipeline()
 print("Voice RAG Pipeline ready.")
 
+def get_field(obj, key, default=None):
+    if hasattr(obj, key):
+        return getattr(obj, key)
+    if isinstance(obj, dict):
+        return obj.get(key, default)
+    return default
+
 def core_process(audio_file, text_input):
     # Extract file path safely from Gradio audio object
     audio_path = None
@@ -38,7 +45,7 @@ def core_process(audio_file, text_input):
 
     if audio_path and os.path.exists(audio_path):
         result = voice_pipeline.run(audio_source=audio_path, language_code="unknown")
-        query_text = result.get("transcript", "")
+        query_text = get_field(result, "transcript", "")
     elif text_input and str(text_input).strip():
         result = voice_pipeline.query_text(str(text_input).strip())
         query_text = str(text_input).strip()
@@ -51,10 +58,19 @@ def core_process(audio_file, text_input):
             "Awaiting query execution..."
         )
 
-    answer = result.get("answer", "")
-    grounded = result.get("grounded", False)
-    sources = result.get("sources", [])
-    lat = result.get("latency", {})
+    answer = get_field(result, "answer", "")
+    grounded = get_field(result, "grounded", False)
+    sources = get_field(result, "sources", [])
+    lat = get_field(result, "latency", None)
+
+    stt_ms = get_field(lat, "stt_ms", 0.0) or 0.0
+    guardrail_ms = get_field(lat, "guardrail_ms", 0.1) or 0.1
+    retrieval_ms = get_field(lat, "retrieval_ms", 0.0) or 0.0
+    reranker_ms = get_field(lat, "reranker_ms", 0.0) or 0.0
+    evidence_gate_ms = get_field(lat, "evidence_gate_ms", 0.1) or 0.1
+    generation_ms = get_field(lat, "generation_ms", 0.0) or 0.0
+    total_ms = get_field(lat, "total_ms", 0.0) or 0.0
+    core_ms = retrieval_ms + reranker_ms
 
     if answer == UNSAFE_RESPONSE:
         status = "🔴 BLOCKED (Safety Guardrail Refusal)"
@@ -67,11 +83,12 @@ def core_process(audio_file, text_input):
     if sources:
         sources_md = "### 📑 Retrieved Evidence Sources (Top Passages)\n\n"
         for idx, s in enumerate(sources, 1):
-            score_val = s.get('rerank_score', s.get('score', 0))
+            score_val = get_field(s, "rerank_score") or get_field(s, "score") or 0.0
             score_badge = f"`Score: {score_val:.2f}`" if score_val else ""
-            q_id = s.get('query_id', 'N/A')
-            p_id = s.get('passage_id', 'N/A')
-            chunk_text = s.get('chunk', '').replace('\n', ' ')
+            q_id = get_field(s, "query_id", "N/A")
+            p_id = get_field(s, "passage_id", "N/A")
+            raw_chunk = get_field(s, "chunk", "")
+            chunk_text = str(raw_chunk).replace("\n", " ")
             sources_md += f"**Source {idx:02d}** {score_badge} `Query #{q_id} Passage #{p_id}`\n\n> {chunk_text}\n\n---\n"
     else:
         sources_md = "*(No supporting evidence passages met the T=0.80 calibrated evidence gate threshold)*"
@@ -82,14 +99,14 @@ def core_process(audio_file, text_input):
 
 | Stage | Measured Latency | Budget / Target |
 | :--- | :---: | :---: |
-| **Speech-to-Text (Sarvam Saaras v3)** | `{lat.get('stt_ms', 0):.1f} ms` | Cloud STT API |
-| **Input Safety Guardrail** | `{lat.get('guardrail_ms', 0.1):.1f} ms` | < 1 ms |
-| **E5 Dense Search (k=15)** | `{lat.get('retrieval_ms', 0):.1f} ms` | < 120 ms |
-| **CrossEncoder Reranker (Top-5)** | `{lat.get('reranker_ms', 0):.1f} ms` | < 60 ms |
-| **Evidence Gate Filter (T=0.80)** | `{lat.get('evidence_gate_ms', 0.1):.1f} ms` | < 1 ms |
-| **👉 LIVE RETRIEVAL CORE TOTAL** | **`{lat.get('retrieval_ms', 0) + lat.get('reranker_ms', 0):.1f} ms`** | **< 200 ms** ⚡ |
-| **Gemini LLM Generation** | `{lat.get('generation_ms', 0):.1f} ms` | Cloud LLM |
-| **⏱️ TOTAL END-TO-END TURNAROUND** | **`{lat.get('total_ms', 0):.1f} ms`** | Full Voice Loop |
+| **Speech-to-Text (Sarvam Saaras v3)** | `{stt_ms:.1f} ms` | Cloud STT API |
+| **Input Safety Guardrail** | `{guardrail_ms:.1f} ms` | < 1 ms |
+| **E5 Dense Search (k=15)** | `{retrieval_ms:.1f} ms` | < 120 ms |
+| **CrossEncoder Reranker (Top-5)** | `{reranker_ms:.1f} ms` | < 60 ms |
+| **Evidence Gate Filter (T=0.80)** | `{evidence_gate_ms:.1f} ms` | < 1 ms |
+| **👉 LIVE RETRIEVAL CORE TOTAL** | **`{core_ms:.1f} ms`** | **< 200 ms** ⚡ |
+| **Gemini LLM Generation** | `{generation_ms:.1f} ms` | Cloud LLM |
+| **⏱️ TOTAL END-TO-END TURNAROUND** | **`{total_ms:.1f} ms`** | Full Voice Loop |
 
 ---
 
