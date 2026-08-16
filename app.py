@@ -1,6 +1,7 @@
 import os
 import sys
 import importlib.util
+import uvicorn
 import gradio as gr
 
 # Ensure root and src are in Python path
@@ -18,9 +19,12 @@ sys.modules["fastapi_main"] = fastapi_main
 spec.loader.exec_module(fastapi_main)
 fastapi_app = fastapi_main.app
 
-# Mount Gradio Blocks wrapper for Hugging Face Spaces detection
+# Mount Gradio Blocks wrapper for Hugging Face Spaces
 with gr.Blocks(title="VOICE RAG — HH Goa 2026") as demo:
     pass
 
-# Hugging Face Spaces automatically discovers and runs this top-level ASGI 'app'
 app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio")
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 7860))
+    uvicorn.run(app, host="0.0.0.0", port=port)
