@@ -50,6 +50,13 @@ def get_field(obj, key, default=None):
         return obj.get(key, default)
     return default
 
+if has_spaces:
+    gpu_decorator = spaces.GPU(duration=10)
+else:
+    def gpu_decorator(f):
+        return f
+
+@gpu_decorator
 def core_process(audio_file, text_input):
     audio_path = None
     if isinstance(audio_file, dict):
@@ -158,14 +165,8 @@ def core_process(audio_file, text_input):
 
     return query_text, answer, status, sources_md, lat_md
 
-# Top-level ZeroGPU decorator (duration=5s)
-if has_spaces:
-    @spaces.GPU(duration=5)
-    def process_query(audio_file, text_input):
-        return core_process(audio_file, text_input)
-else:
-    def process_query(audio_file, text_input):
-        return core_process(audio_file, text_input)
+def process_query(audio_file, text_input):
+    return core_process(audio_file, text_input)
 
 custom_css = """
 body { background-color: #080c14 !important; color: #f3f4f6 !important; font-family: 'Inter', sans-serif !important; }
