@@ -181,7 +181,7 @@ h1, h2, h3 { color: #38bdf8 !important; font-weight: 700 !important; }
 .primary-btn { background: linear-gradient(135deg, #0284c7, #6366f1) !important; color: white !important; font-weight: 600 !important; border: none !important; border-radius: 8px !important; height: 48px !important; }
 """
 
-with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG — HH Goa 2026") as demo:
+with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG — HH Goa 2026") as _demo:
     gr.Markdown(
         "# 🎙️ VOICE RAG — HH GOA 2026\n"
         "**Multilingual Grounded Voice RAG** · `Sarvam Saaras v3` · `Multilingual E5-Base (k=15)` · `mMARCO CrossEncoder` · `Evidence Gate T=0.80`\n"
@@ -252,8 +252,8 @@ app.add_api_route("/api/metrics", get_metrics, methods=["GET"])
 app.add_api_route("/api/text-query", handle_text_query, methods=["POST"])
 app.add_api_route("/api/voice-query", handle_voice_query, methods=["POST"])
 
-demo.queue()
-app = gr.mount_gradio_app(app, demo, path="/")
+_demo.queue()
+app = gr.mount_gradio_app(app, _demo, path="/")
 
 if __name__ == "__main__":
     import uvicorn
