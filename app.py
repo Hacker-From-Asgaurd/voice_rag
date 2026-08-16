@@ -1,7 +1,6 @@
 import os
 import sys
 import importlib.util
-import uvicorn
 import gradio as gr
 
 # Ensure root and src are in Python path
@@ -26,5 +25,4 @@ with gr.Blocks(title="VOICE RAG — HH Goa 2026") as demo:
 app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio")
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 7860))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    demo.launch()
