@@ -253,5 +253,7 @@ if __name__ == "__main__":
     app.add_api_route("/api/metrics", get_metrics, methods=["GET"])
     app.add_api_route("/api/text-query", handle_text_query, methods=["POST"])
     app.add_api_route("/api/voice-query", handle_voice_query, methods=["POST"])
-    demo.block()
+    import time
+    while True:
+        time.sleep(3600)
 
