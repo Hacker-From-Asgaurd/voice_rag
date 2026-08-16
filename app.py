@@ -117,13 +117,17 @@ def core_process(audio_file, text_input):
 
     return query_text, answer, status, sources_md, lat_md
 
-# ZeroGPU GPU wrapper
-if has_spaces:
-    @spaces.GPU(duration=60)
-    def process_query(audio_file, text_input):
-        return core_process(audio_file, text_input)
-else:
-    def process_query(audio_file, text_input):
+def process_query(audio_file, text_input):
+    if has_spaces:
+        try:
+            @spaces.GPU(duration=5)
+            def run_on_gpu():
+                return core_process(audio_file, text_input)
+            return run_on_gpu()
+        except Exception as e:
+            print(f"ZeroGPU lease unavailable ({e}), running directly on CPU...")
+            return core_process(audio_file, text_input)
+    else:
         return core_process(audio_file, text_input)
 
 custom_css = """
