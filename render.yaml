@@ -3,6 +3,7 @@ services:
     name: voice-rag-hhgoa
     runtime: docker
     plan: standard
+    healthCheckPath: /api/health
     envVars:
       - key: SARVAM_API_KEY
         sync: false

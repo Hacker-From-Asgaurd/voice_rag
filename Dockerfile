@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code and data assets
+# Copy source code, app, and data assets
 COPY src/ ./src/
 COPY app/ ./app/
 COPY data/ ./data/
@@ -25,5 +25,5 @@ ENV HOST=0.0.0.0
 
 EXPOSE 8000
 
-# Start FastAPI server
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start FastAPI server with dynamic PORT resolution for Render & Docker
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
