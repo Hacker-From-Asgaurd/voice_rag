@@ -24,8 +24,21 @@ voice_pipeline = VoiceRAGPipeline()
 print("Voice RAG Pipeline ready.")
 
 def core_process(audio_file, text_input):
-    if audio_file is not None:
-        result = voice_pipeline.run(audio_source=audio_file, language_code="unknown")
+    # Extract file path safely if Gradio passes a dict or tuple
+    audio_path = None
+    if isinstance(audio_file, dict):
+        audio_path = audio_file.get("path") or audio_file.get("name")
+    elif isinstance(audio_file, str) and audio_file.strip():
+        audio_path = audio_file.strip()
+    elif isinstance(audio_file, tuple):
+        import tempfile, soundfile as sf
+        sr, y = audio_file
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
+            sf.write(f.name, y, sr)
+            audio_path = f.name
+
+    if audio_path and os.path.exists(audio_path):
+        result = voice_pipeline.run(audio_source=audio_path, language_code="unknown")
         query_text = result.get("transcript", "")
     elif text_input and str(text_input).strip():
         result = voice_pipeline.query_text(str(text_input).strip())
@@ -100,11 +113,31 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG â€
     with gr.Row():
         sources_box = gr.Markdown(label="Retrieved Evidence Sources")
 
+    # Manual Submit Button
     submit_btn.click(
         fn=process_query,
         inputs=[audio_input, text_input],
         outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
         api_name="query",
+    )
+
+    # Pressing Enter in Textbox submits
+    text_input.submit(
+        fn=process_query,
+        inputs=[audio_input, text_input],
+        outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
+    )
+
+    # Automatic submission on audio recording stop / upload
+    audio_input.stop_recording(
+        fn=process_query,
+        inputs=[audio_input, text_input],
+        outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
+    )
+    audio_input.upload(
+        fn=process_query,
+        inputs=[audio_input, text_input],
+        outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
     )
 
 if __name__ == "__main__":
