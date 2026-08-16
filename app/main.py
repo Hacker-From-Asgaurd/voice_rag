@@ -25,6 +25,7 @@ from harness.pipeline import (
     FINAL_RESULTS,
 )
 from harness.guardrails import check_input, UNSAFE_RESPONSE
+from harness.schemas import QueryRequest
 from speech.voice_pipeline import VoiceRAGPipeline
 from speech.transcriber import SarvamTranscriber
 from app.schemas import (
@@ -54,7 +55,9 @@ async def lifespan(app: FastAPI):
         rag = RAGPipeline()
         transcriber = SarvamTranscriber()
         voice_pipeline = VoiceRAGPipeline(rag_pipeline=rag, transcriber=transcriber)
-        print("All models and clients successfully loaded & ready.")
+        # Perform pipeline warmup pass
+        voice_pipeline.rag.retrieve(QueryRequest(query="warmup query", top_k=5))
+        print("All models and clients successfully loaded, warmed & ready.")
     except Exception as e:
         print(f"Warning during model initialization: {e}")
 

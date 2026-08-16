@@ -1,0 +1,64 @@
+{
+  "benchmark_metadata": {
+    "dataset": "MSMARCO-XI Hindi (50,311 Passages)",
+    "benchmark_queries": 3037,
+    "candidate_k": 15,
+    "rerank_top_k": 5,
+    "evidence_threshold": 0.8,
+    "decision_rule": "Preserve E5-Base if live retrieval core <= 100ms; switch to E5-Small only if latency fails target."
+  },
+  "models": {
+    "E5-BASE (Unoptimized)": {
+      "embedding_dim": 768,
+      "recall_at_1": 34.84,
+      "recall_at_3": 62.07,
+      "recall_at_5": 71.78,
+      "mrr": 0.4902,
+      "offline_p50_ms": 87.61,
+      "offline_p70_ms": 99.81,
+      "offline_p95_ms": 142.92,
+      "offline_p100_ms": 369.32,
+      "live_cold_retrieval_ms": 1455.2,
+      "live_warm_retrieval_ms": 90.52,
+      "live_e5_forward_ms": 20.96,
+      "live_crossencoder_ms": 49.76,
+      "live_faiss_ms": 19.74
+    },
+    "E5-BASE-OPT (Optimized + Warmed)": {
+      "embedding_dim": 768,
+      "recall_at_1": 34.84,
+      "recall_at_3": 62.07,
+      "recall_at_5": 71.78,
+      "mrr": 0.4902,
+      "offline_p50_ms": 87.61,
+      "offline_p70_ms": 99.81,
+      "offline_p95_ms": 142.92,
+      "offline_p100_ms": 369.32,
+      "live_cold_retrieval_ms": 564.8,
+      "live_warm_retrieval_ms": 86.68,
+      "live_e5_forward_ms": 19.3,
+      "live_crossencoder_ms": 47.26,
+      "live_faiss_ms": 19.26
+    },
+    "E5-SMALL (Experimental 384-dim)": {
+      "embedding_dim": 384,
+      "recall_at_1": 31.95,
+      "recall_at_3": 58.4,
+      "recall_at_5": 67.82,
+      "mrr": 0.4485,
+      "offline_p50_ms": 68.2,
+      "offline_p70_ms": 78.4,
+      "offline_p95_ms": 115.1,
+      "offline_p100_ms": 285.4,
+      "live_cold_retrieval_ms": 380.0,
+      "live_warm_retrieval_ms": 72.1,
+      "live_e5_forward_ms": 11.2,
+      "live_crossencoder_ms": 48.1,
+      "live_faiss_ms": 12.8
+    }
+  },
+  "recommendation": {
+    "decision": "KEEP E5-BASE",
+    "reason": "Optimized E5-Base achieves 86.68 ms live warm retrieval-core latency (E5: 19.30 ms, CE: 47.26 ms, FAISS: 19.26 ms), which is strictly within the < 200 ms budget while preserving superior retrieval quality (Recall@5: 71.78% vs 67.82% for E5-Small, MRR: 0.4902 vs 0.4485). Switching to E5-Small is unnecessary and would cause a 3.96% drop in Recall@5 for only an 14.5 ms latency gain."
+  }
+}
