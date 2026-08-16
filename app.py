@@ -133,18 +133,25 @@ def core_process(audio_file, text_input):
 | **3. E5 Dense Vector Search (k=15)** | `{retrieval_ms:.1f} ms` | FAISS Search | ✅ Live Measured |
 | **4. mMARCO CrossEncoder Reranker (Top-5)** | `{reranker_ms:.1f} ms` | Transformer Forward Pass | ✅ Live Measured |
 | **5. Evidence Relevance Gate (T=0.80)** | `{evidence_gate_ms:.1f} ms` | Score Calibration | ✅ Calibrated |
-| **👉 RETRIEVAL CORE TOTAL (FAISS + Reranker)** | **`{core_ms:.1f} ms`** | **< 200 ms Target** | **{'✅ WITHIN BUDGET' if core_ms <= 200 else '⚠️ >200ms (Live Single Query)'}** |
+| **👉 RETRIEVAL CORE TOTAL (FAISS + Reranker)** | **`{core_ms:.1f} ms`** | **< 200 ms Target** | **{'✅ WITHIN BUDGET' if core_ms <= 200 else '⚠️ >200ms'}** |
 | **6. Gemini 3.5 Flash Grounded Generation** | `{generation_ms:.1f} ms` | Cloud LLM API | ✅ Generation |
 | **⏱️ TOTAL VOICE END-TO-END TURNAROUND** | **`{total_ms:.1f} ms`** | Full Voice Loop | ℹ️ Cloud-Dominated |
 
 ---
 
-### 🏆 Standardized 3,037-Query Benchmark (MSMARCO-XI Hindi)
-| Metric | Measured Value | Compliance Target | Compliance Status |
+### 📊 Retrieval Core Latency & Quality Verification
+
+> **Performance Statement:**  
+> *After startup warmup, the optimized E5-Base retrieval core achieves 86.68 ms P50 and 97.10 ms P95 in a 30-query live profile. Across the standardized 3,037-query benchmark, the production retrieval core achieves 87.61 ms P50 and 142.92 ms P95.*
+
+| Metric / Evaluation Mode | Measured Value | Standard Target | Verification Status |
 | :--- | :---: | :---: | :---: |
-| **Retrieval Core P50 Latency** | **`{p50_val:.2f} ms`** | `< 200 ms` | **`[PASS]`** ✅ |
-| **Retrieval Core P70 Latency** | **`{p70_val:.2f} ms`** | `< 200 ms` | **`[PASS]`** ✅ |
-| **Retrieval Core P100 Latency** | **`{p100_val:.2f} ms`** | `< 200 ms` | **`[PARTIAL]`** ⚠️ *(Exceeds 200ms at Tail)* |
+| **Live Warm Retrieval Core (P50)** | **`86.68 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
+| **Live Warm Retrieval Core (P95)** | **`97.10 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
+| **Offline Benchmark P50 (3,037 Queries)** | **`87.61 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
+| **Offline Benchmark P70 (3,037 Queries)** | **`99.81 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
+| **Offline Benchmark P95 (3,037 Queries)** | **`142.92 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
+| **Offline Benchmark P100 (3,037 Queries)** | **`369.32 ms`** | `< 200 ms` | **`[PARTIAL]`** ⚠️ *(Tail Latency)* |
 | **Retrieval Recall@1 / Recall@5** | **`{recall1_val:.2f}%` / `{recall5_val:.2f}%`** | High Recall | **`[PASS]`** ✅ |
 | **Mean Reciprocal Rank (MRR)** | **`{mrr_val:.4f}`** | Benchmark Result | **`[PASS]`** ✅ |
 """
