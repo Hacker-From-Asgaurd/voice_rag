@@ -108,7 +108,7 @@ def core_process(audio_file, text_input):
         for idx, s in enumerate(sources, 1):
             raw_score = float(get_field(s, "score", 0.0))
             calib_conf = float(get_field(s, "calibrated_confidence", calibrate_crossencoder_score(raw_score)))
-            pass_badge = "🟢 PASS (≥0.50)" if calib_conf >= 0.50 else "🟡 FILTERED (<0.50)"
+            pass_badge = "🟢 PASS (Evidence Retained)" if raw_score >= -2.0 else "🟡 FILTERED"
             
             p_id = get_field(s, "passage_id", "N/A")
             raw_chunk = get_field(s, "chunk", "")

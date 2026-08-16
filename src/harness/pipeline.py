@@ -85,16 +85,16 @@ class RAGPipeline:
     def filter_evidence(self, results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Filters evidence using fitted Platt scaling relevance calibration.
-        Threshold T=0.80 is applied to calibrated relevance probability.
+        Allows top cross-lingual candidates (score >= -2.0) into context for Gemini grounding verification.
         """
         filtered = []
         for r in results:
             raw_score = float(r.get("rerank_score", r.get("score", 0.0)))
             calibrated_prob = calibrate_crossencoder_score(raw_score)
             r["calibrated_confidence"] = calibrated_prob
-            if calibrated_prob >= EVIDENCE_RELEVANCE_THRESHOLD:
+            if raw_score >= -2.0:
                 filtered.append(r)
-        return filtered
+        return filtered[:3] if filtered else []
 
     def run(self, request: QueryRequest) -> PipelineResponse:
         trace_id = str(uuid.uuid4())
