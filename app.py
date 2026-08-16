@@ -165,8 +165,13 @@ def core_process(audio_file, text_input):
 
     return query_text, answer, status, sources_md, lat_md
 
-def process_query(audio_file, text_input):
-    return core_process(audio_file, text_input)
+if has_spaces:
+    @spaces.GPU(duration=10)
+    def process_query(audio_file, text_input):
+        return core_process(audio_file, text_input)
+else:
+    def process_query(audio_file, text_input):
+        return core_process(audio_file, text_input)
 
 custom_css = """
 body { background-color: #080c14 !important; color: #f3f4f6 !important; font-family: 'Inter', sans-serif !important; }
@@ -244,9 +249,9 @@ app.add_api_route("/api/metrics", get_metrics, methods=["GET"])
 app.add_api_route("/api/text-query", handle_text_query, methods=["POST"])
 app.add_api_route("/api/voice-query", handle_voice_query, methods=["POST"])
 
+demo.queue()
 app = gr.mount_gradio_app(app, demo, path="/")
 
 if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=7860)
+    demo.launch(show_api=False)
 
