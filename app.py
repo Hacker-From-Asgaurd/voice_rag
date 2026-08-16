@@ -3,6 +3,13 @@ import sys
 import importlib.util
 import gradio as gr
 
+# Try importing spaces for ZeroGPU compatibility
+try:
+    import spaces
+    has_spaces = True
+except ImportError:
+    has_spaces = False
+
 # Ensure root and src are in Python path
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 if os.path.join(ROOT_DIR, "src") not in sys.path:
@@ -18,7 +25,13 @@ sys.modules["fastapi_main"] = fastapi_main
 spec.loader.exec_module(fastapi_main)
 fastapi_app = fastapi_main.app
 
-# Mount Gradio Blocks wrapper with custom title
+# ZeroGPU decorator detection
+if has_spaces:
+    @spaces.GPU
+    def run_on_gpu():
+        return "GPU Ready"
+
+# Mount Gradio Blocks wrapper
 with gr.Blocks(title="VOICE RAG — HH Goa 2026") as demo:
     gr.HTML("<iframe src='/' style='width:100%; height:100vh; border:none;'></iframe>")
 
