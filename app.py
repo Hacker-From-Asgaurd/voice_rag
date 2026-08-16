@@ -228,7 +228,8 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG â€
         api_name=False
     )
 
-# Attach production FastAPI routes to Gradio app
+# Mount Gradio onto FastAPI root application
+from fastapi import FastAPI
 from app.main import (
     health_check,
     get_metrics,
@@ -236,11 +237,15 @@ from app.main import (
     handle_voice_query,
 )
 
-demo.app.add_api_route("/api/health", health_check, methods=["GET"])
-demo.app.add_api_route("/api/metrics", get_metrics, methods=["GET"])
-demo.app.add_api_route("/api/text-query", handle_text_query, methods=["POST"])
-demo.app.add_api_route("/api/voice-query", handle_voice_query, methods=["POST"])
+app = FastAPI(title="VOICE RAG â€” HH Goa 2026")
+app.add_api_route("/api/health", health_check, methods=["GET"])
+app.add_api_route("/api/metrics", get_metrics, methods=["GET"])
+app.add_api_route("/api/text-query", handle_text_query, methods=["POST"])
+app.add_api_route("/api/voice-query", handle_voice_query, methods=["POST"])
+
+app = gr.mount_gradio_app(app, demo, path="/")
 
 if __name__ == "__main__":
-    demo.launch(show_api=False)
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=7860)
 

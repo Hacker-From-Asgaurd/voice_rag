@@ -38,24 +38,18 @@ def check_actionable_safety(query: str) -> Dict[str, Any]:
     Evaluates input query against actionable malicious safety rules.
     Allows historical/scientific queries while blocking weapon synthesis, cyber attacks, and jailbreaks.
     """
-    if not isinstance(query, str):
-        return {"allowed": False, "reason": "Invalid query type.", "category": "invalid_type"}
-
-    query_clean = query.strip()
-    if not query_clean:
-        return {"allowed": False, "reason": "Query is empty.", "category": "empty"}
-
-    query_lower = query_clean.lower()
-
+    q_lower = query.lower()
     for pattern in ACTIONABLE_MALICIOUS_PATTERNS:
-        if re.search(pattern, query_lower):
+        if re.search(pattern, q_lower):
             return {
                 "allowed": False,
-                "reason": "Blocked actionable harmful request (safety policy violation).",
                 "category": "actionable_harm"
             }
 
     return {"allowed": True, "reason": None, "category": "safe"}
+
+# Backwards compatibility alias for app/main.py
+check_input = check_actionable_safety
 
 
 # ---------------------------------------------------------
