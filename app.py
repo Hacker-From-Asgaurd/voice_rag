@@ -234,7 +234,7 @@ with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG â€
         api_name=False
     )
 
-# Import production FastAPI route handlers
+# Register production FastAPI endpoints directly on demo.app before launch
 import app.main as app_main
 from app.main import (
     health_check,
@@ -245,21 +245,13 @@ from app.main import (
 
 app_main.voice_pipeline = voice_pipeline
 
+demo.app.add_api_route("/api/health", health_check, methods=["GET"])
+demo.app.add_api_route("/api/metrics", get_metrics, methods=["GET"])
+demo.app.add_api_route("/api/text-query", handle_text_query, methods=["POST"])
+demo.app.add_api_route("/api/voice-query", handle_voice_query, methods=["POST"])
+
 demo.queue()
 
 if __name__ == "__main__":
-    app, local_url, share_url = demo.launch(prevent_thread_lock=True)
-    app.add_api_route("/api/health", health_check, methods=["GET"])
-    app.add_api_route("/api/metrics", get_metrics, methods=["GET"])
-    app.add_api_route("/api/text-query", handle_text_query, methods=["POST"])
-    app.add_api_route("/api/voice-query", handle_voice_query, methods=["POST"])
-
-    # Reorder routes so API endpoints match before Gradio SPA catch-all
-    api_routes = [r for r in app.router.routes if hasattr(r, "path") and r.path.startswith("/api/")]
-    other_routes = [r for r in app.router.routes if not (hasattr(r, "path") and r.path.startswith("/api/"))]
-    app.router.routes = api_routes + other_routes
-
-    import time
-    while True:
-        time.sleep(3600)
+    demo.launch()
 
