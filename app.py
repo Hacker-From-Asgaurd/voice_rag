@@ -10,12 +10,6 @@ if os.path.join(ROOT_DIR, "src") not in sys.path:
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
-try:
-    import spaces
-    has_spaces = True
-except ImportError:
-    has_spaces = False
-
 from speech.voice_pipeline import VoiceRAGPipeline
 from harness.guardrails import UNSAFE_RESPONSE, ABSTENTION_TEXT, calibrate_crossencoder_score
 
@@ -158,14 +152,18 @@ def core_process(audio_file, text_input):
 
     return query_text, answer, status, sources_md, lat_md
 
-# Top-level ZeroGPU decorator (duration=5s)
-if has_spaces:
-    @spaces.GPU(duration=5)
-    def process_query(audio_file, text_input):
+def process_query(audio_file, text_input):
+    try:
         return core_process(audio_file, text_input)
-else:
-    def process_query(audio_file, text_input):
-        return core_process(audio_file, text_input)
+    except Exception as e:
+        print(f"Error processing query: {e}")
+        return (
+            str(text_input or ""),
+            f"प्रणाली में आंतरिक त्रुटि उत्पन्न हुई: {e}",
+            "🔴 ERROR",
+            "*(No evidence loaded due to processing error)*",
+            f"Error details: {e}"
+        )
 
 custom_css = """
 body { background-color: #080c14 !important; color: #f3f4f6 !important; font-family: 'Inter', sans-serif !important; }
