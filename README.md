@@ -1,3 +1,14 @@
+---
+title: Voice RAG HHGoa
+emoji: 🎙️
+colorFrom: blue
+colorTo: cyan
+sdk: gradio
+sdk_version: 4.44.0
+app_file: app.py
+pinned: false
+---
+
 # VOICE-RAG-HHGOA: Voice-Enabled Multilingual Grounded RAG Pipeline
 
 [![HH Goa 2026 Task 2](https://img.shields.io/badge/Competition-HH%20Goa%202026%20Task%202-emerald.svg)](https://forms.gle/MNvCjcv23Hn2Eeu58)
