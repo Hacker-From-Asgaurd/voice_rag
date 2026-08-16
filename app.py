@@ -1,5 +1,6 @@
 import os
 import sys
+import importlib.util
 import gradio as gr
 
 # Ensure root and src are in Python path
@@ -9,136 +10,46 @@ if os.path.join(ROOT_DIR, "src") not in sys.path:
 if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
-try:
-    import spaces
-    has_spaces = True
-except ImportError:
-    has_spaces = False
+# Load the exact FastAPI app from app/main.py
+main_py_path = os.path.join(ROOT_DIR, "app", "main.py")
+spec = importlib.util.spec_from_file_location("fastapi_main", main_py_path)
+fastapi_main = importlib.util.module_from_spec(spec)
+sys.modules["fastapi_main"] = fastapi_main
+spec.loader.exec_module(fastapi_main)
+fastapi_app = fastapi_main.app
 
-from speech.voice_pipeline import VoiceRAGPipeline
-from harness.guardrails import UNSAFE_RESPONSE
-
-# Initialize Voice RAG Pipeline
-print("Initializing Voice RAG Pipeline for Hugging Face Spaces...")
-voice_pipeline = VoiceRAGPipeline()
-print("Voice RAG Pipeline ready.")
-
-def core_process(audio_file, text_input):
-    # Extract file path safely if Gradio passes a dict or tuple
-    audio_path = None
-    if isinstance(audio_file, dict):
-        audio_path = audio_file.get("path") or audio_file.get("name")
-    elif isinstance(audio_file, str) and audio_file.strip():
-        audio_path = audio_file.strip()
-    elif isinstance(audio_file, tuple):
-        import tempfile, soundfile as sf
-        sr, y = audio_file
-        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
-            sf.write(f.name, y, sr)
-            audio_path = f.name
-
-    if audio_path and os.path.exists(audio_path):
-        result = voice_pipeline.run(audio_source=audio_path, language_code="unknown")
-        query_text = result.get("transcript", "")
-    elif text_input and str(text_input).strip():
-        result = voice_pipeline.query_text(str(text_input).strip())
-        query_text = str(text_input).strip()
-    else:
-        return "", "Please speak into the microphone or type a question.", "Awaiting input", "No sources", ""
-
-    answer = result.get("answer", "")
-    grounded = result.get("grounded", False)
-    sources = result.get("sources", [])
-    lat = result.get("latency", {})
-
-    if answer == UNSAFE_RESPONSE:
-        status = "🔴 BLOCKED (Safety Guardrail)"
-    elif grounded:
-        status = "🟢 GROUNDED (Evidence Backed)"
-    else:
-        status = "🟡 SAFE ABSTENTION"
-
-    # Format sources
-    sources_text = ""
-    for idx, s in enumerate(sources, 1):
-        sources_text += f"### Source {idx:02d} (Score: {s.get('rerank_score', s.get('score', 0)):.2f})\n{s.get('chunk', '')}\n\n---\n"
-    if not sources_text:
-        sources_text = "No supporting passages retained by evidence gate."
-
-    # Format latency telemetry
-    lat_text = (
-        f"**Live Single-Request Latency:**\n"
-        f"- Speech-to-Text (Sarvam Saaras v3): {lat.get('stt_ms', 0):.1f} ms\n"
-        f"- E5 Dense Search (k=15): {lat.get('retrieval_ms', 0):.1f} ms\n"
-        f"- CrossEncoder Reranking (Top-5): {lat.get('reranker_ms', 0):.1f} ms\n"
-        f"- Evidence Gate (T=0.80): {lat.get('evidence_gate_ms', 0):.1f} ms\n"
-        f"- Gemini Generation: {lat.get('generation_ms', 0):.1f} ms\n"
-        f"- **Total End-to-End**: {lat.get('total_ms', 0):.1f} ms\n\n"
-        f"**Offline 3,037-Query Benchmark (k=15):**\n"
-        f"- Recall@1: 34.84% | Recall@5: 71.78% | MRR: 0.4902\n"
-        f"- P50: 87.6 ms | P95: 142.9 ms | P100: 369.3 ms"
-    )
-
-    return query_text, answer, status, sources_text, lat_text
-
-# Wrap with @spaces.GPU when on ZeroGPU
-if has_spaces:
-    @spaces.GPU(duration=60)
-    def process_query(audio_file, text_input):
-        return core_process(audio_file, text_input)
-else:
-    def process_query(audio_file, text_input):
-        return core_process(audio_file, text_input)
-
+# Custom full-screen wrapper displaying the exact localhost Dark Technical Dashboard
 custom_css = """
-body { background-color: #080c14; color: #f3f4f6; }
-.gradio-container { max-width: 1200px !important; margin: 0 auto !important; }
+body, html { 
+    margin: 0 !important; 
+    padding: 0 !important; 
+    width: 100vw !important; 
+    height: 100vh !important; 
+    overflow: hidden !important; 
+    background-color: #080c14 !important; 
+}
+.gradio-container { 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    max-width: 100vw !important; 
+    height: 100vh !important; 
+    background-color: #080c14 !important; 
+}
+footer { display: none !important; }
 """
 
-with gr.Blocks(theme=gr.themes.Monochrome(), css=custom_css, title="VOICE RAG — HH Goa 2026") as demo:
-    gr.Markdown("# 🎙️ VOICE RAG — HH GOA 2026\n### Multilingual Voice-Enabled Grounded Retrieval Dashboard (MSMARCO-XI Hindi)")
-    
-    with gr.Row():
-        with gr.Column(scale=1):
-            audio_input = gr.Audio(sources=["microphone", "upload"], type="filepath", label="Voice Input (Hindi / English / Marathi / Hinglish)")
-            text_input = gr.Textbox(placeholder="Or type a question (e.g. मैनहट्टन परियोजना क्या थी?)", label="Text Query Fallback")
-            submit_btn = gr.Button("Search / Transcribe", variant="primary")
-            status_box = gr.Textbox(label="Grounding Status", interactive=False)
-            transcript_box = gr.Textbox(label="Detected Transcription / Query", interactive=False)
+html_iframe = """
+<iframe 
+    src="/static/index.html" 
+    style="position:fixed; top:0; left:0; width:100vw; height:100vh; border:none; margin:0; padding:0; overflow-y:auto; z-index:999999;">
+</iframe>
+"""
 
-        with gr.Column(scale=1):
-            answer_box = gr.Textbox(label="Generated Grounded Answer", lines=4, interactive=False)
-            latency_box = gr.Markdown(label="Latency Telemetry & Benchmark")
+with gr.Blocks(css=custom_css, title="VOICE RAG — HH Goa 2026") as demo:
+    gr.HTML(html_iframe)
 
-    with gr.Row():
-        sources_box = gr.Markdown(label="Retrieved Evidence Sources")
-
-    # Manual Submit Button
-    submit_btn.click(
-        fn=process_query,
-        inputs=[audio_input, text_input],
-        outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
-        api_name="query",
-    )
-
-    # Pressing Enter in Textbox submits
-    text_input.submit(
-        fn=process_query,
-        inputs=[audio_input, text_input],
-        outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
-    )
-
-    # Automatic submission on audio recording stop / upload
-    audio_input.stop_recording(
-        fn=process_query,
-        inputs=[audio_input, text_input],
-        outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
-    )
-    audio_input.upload(
-        fn=process_query,
-        inputs=[audio_input, text_input],
-        outputs=[transcript_box, answer_box, status_box, sources_box, latency_box],
-    )
+# Mount Gradio wrapper while serving the exact FastAPI backend & static assets
+app = gr.mount_gradio_app(fastapi_app, demo, path="/gradio")
 
 if __name__ == "__main__":
     demo.launch()
