@@ -68,6 +68,7 @@ class Retriever:
             query_embedding = self.model.encode(
                 [prefixed_query],
                 normalize_embeddings=True,
+                convert_to_numpy=True,
                 show_progress_bar=False
             )
 

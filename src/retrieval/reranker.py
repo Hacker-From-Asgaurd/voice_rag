@@ -59,6 +59,7 @@ class Reranker:
         with torch.inference_mode():
             scores = self.model.predict(
                 pairs,
+                convert_to_numpy=True,
                 show_progress_bar=False
             )
 
