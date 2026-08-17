@@ -6,6 +6,7 @@ import numpy as np
 import torch
 from sentence_transformers import SentenceTransformer
 
+MODEL_NAME = "intfloat/multilingual-e5-base"
 ROOT_DIR = Path(__file__).resolve().parents[2]
 INDEX_FILE = str(ROOT_DIR / "data" / "e5_adaptive.index")
 METADATA_FILE = str(ROOT_DIR / "data" / "e5_metadata.json")
