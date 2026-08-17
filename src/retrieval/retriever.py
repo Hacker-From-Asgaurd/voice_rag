@@ -6,9 +6,9 @@ import numpy as np
 import torch
 from sentence_transformers import SentenceTransformer
 
-MODEL_NAME = "intfloat/multilingual-e5-base"
-INDEX_FILE = "data/e5_adaptive.index"
-METADATA_FILE = "data/e5_metadata.json"
+ROOT_DIR = Path(__file__).resolve().parents[2]
+INDEX_FILE = str(ROOT_DIR / "data" / "e5_adaptive.index")
+METADATA_FILE = str(ROOT_DIR / "data" / "e5_metadata.json")
 
 
 class Retriever:
@@ -46,6 +46,7 @@ class Retriever:
                 dummy_emb = self.model.encode(
                     ["query: warmup"],
                     normalize_embeddings=True,
+                    convert_to_numpy=True,
                     show_progress_bar=False
                 )
                 dummy_np = np.asarray(dummy_emb, dtype="float32")
@@ -57,12 +58,6 @@ class Retriever:
 
     def search(self, query: str, top_k: int = 15) -> List[Dict[str, Any]]:
         prefixed_query = "query: " + query
-
-        if torch.cuda.is_available() and getattr(self.model, "device", None) is not None and self.model.device.type != "cuda":
-            try:
-                self.model.to("cuda")
-            except Exception:
-                pass
 
         with torch.inference_mode():
             query_embedding = self.model.encode(

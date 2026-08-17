@@ -45,12 +45,6 @@ class Reranker:
         if not results:
             return []
 
-        if torch.cuda.is_available() and hasattr(self.model, "model") and getattr(self.model.model, "device", None) is not None and self.model.model.device.type != "cuda":
-            try:
-                self.model.model.to("cuda")
-            except Exception:
-                pass
-
         pairs: List[Tuple[str, str]] = [
             (query, result.get("chunk", ""))
             for result in results
