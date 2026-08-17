@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 from typing import List, Dict, Any
@@ -20,7 +21,10 @@ class Retriever:
 
     def __init__(self):
         print("Loading E5 model...")
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        if os.environ.get("SPACE_ID") or not torch.cuda.is_available():
+            self.device = "cpu"
+        else:
+            self.device = "cuda"
         print("Using device:", self.device)
 
         self.model = SentenceTransformer(

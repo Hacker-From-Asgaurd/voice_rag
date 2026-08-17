@@ -1,3 +1,4 @@
+import os
 from typing import List, Dict, Any, Tuple
 import torch
 from sentence_transformers import CrossEncoder
@@ -13,7 +14,10 @@ class Reranker:
 
     def __init__(self):
         print("Loading multilingual reranker...")
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        if os.environ.get("SPACE_ID") or not torch.cuda.is_available():
+            self.device = "cpu"
+        else:
+            self.device = "cuda"
         print("Reranker device:", self.device)
 
         self.model = CrossEncoder(
