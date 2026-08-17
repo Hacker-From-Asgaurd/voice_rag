@@ -60,14 +60,15 @@ def core_process(audio_file, text_input):
             sf.write(f.name, y, sr)
             audio_path = f.name
 
-    if audio_path and os.path.exists(audio_path):
+    text_clean = str(text_input or "").strip()
+    if text_clean:
+        result = voice_pipeline.query_text(text_clean)
+        query_text = text_clean
+        input_mode = "⌨️ Text Fallback"
+    elif audio_path and os.path.exists(audio_path):
         result = voice_pipeline.run(audio_source=audio_path, language_code="unknown")
         query_text = get_field(result, "transcript", "")
         input_mode = "🎙️ Voice Audio"
-    elif text_input and str(text_input).strip():
-        result = voice_pipeline.query_text(str(text_input).strip())
-        query_text = str(text_input).strip()
-        input_mode = "⌨️ Text Fallback"
     else:
         return (
             "", 
