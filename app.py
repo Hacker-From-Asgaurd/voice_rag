@@ -124,17 +124,17 @@ def core_process(audio_file, text_input):
     lat_md = f"""
 ### ⚡ Live Query Telemetry (Input: {input_mode} · Trace: `{trace_id[:8]}`)
 
-> 🚀 **ENGINEERED RETRIEVAL CORE: `{core_ms:.1f} ms` — WITHIN < 200 ms TARGET `[PASS]` ✅**
+> 🚀 **ENGINEERED RETRIEVAL CORE: `{core_ms:.1f} ms` — WITHIN < 200 ms TARGET `[PASS]`**
 
 | Pipeline Stage | Measured Latency | Budget / Scope | Live Request Status |
 | :--- | :---: | :---: | :---: |
-| **1. Speech-to-Text (Sarvam Saaras v3)** | `{stt_ms:.1f} ms` | Cloud STT API | {'✅ Live API' if stt_ms > 0 else '⚡ Skipped (Text Input)'} |
-| **2. Actionable Safety Guardrail** | `{guardrail_ms:.1f} ms` | < 1 ms | ✅ Pass |
-| **3. E5 Dense Vector Search (k=15)** | `{retrieval_ms:.1f} ms` | FAISS Search | ✅ Live Measured |
-| **4. mMARCO CrossEncoder Reranker (Top-5)** | `{reranker_ms:.1f} ms` | Transformer Forward Pass | ✅ Live Measured |
-| **5. Evidence Relevance Gate (T=0.80)** | `{evidence_gate_ms:.1f} ms` | Score Calibration | ✅ Calibrated |
-| **👉 RETRIEVAL CORE TOTAL (FAISS + Reranker)** | **`{core_ms:.1f} ms`** | **< 200 ms Target** | **{'✅ WITHIN BUDGET' if core_ms <= 200 else '⚠️ >200ms'}** |
-| **6. Gemini 3.5 Flash Grounded Generation** | `{generation_ms:.1f} ms` | Cloud LLM Streaming API | ✅ Generation |
+| **1. Speech-to-Text (Sarvam Saaras v3)** | `{stt_ms:.1f} ms` | Cloud STT API | {'Live API' if stt_ms > 0 else '⚡ Skipped (Text Input)'} |
+| **2. Actionable Safety Guardrail** | `{guardrail_ms:.1f} ms` | < 1 ms | Pass |
+| **3. E5 Dense Vector Search (k=15)** | `{retrieval_ms:.1f} ms` | FAISS Search | Live Measured |
+| **4. mMARCO CrossEncoder Reranker (Top-5)** | `{reranker_ms:.1f} ms` | Transformer Forward Pass | Live Measured |
+| **5. Evidence Relevance Gate (T=0.80)** | `{evidence_gate_ms:.1f} ms` | Score Calibration | Calibrated |
+| **👉 RETRIEVAL CORE TOTAL (FAISS + Reranker)** | **`{core_ms:.1f} ms`** | **< 200 ms Target** | **{'WITHIN BUDGET' if core_ms <= 200 else '⚠️ >200ms'}** |
+| **6. Gemini 3.5 Flash Grounded Generation** | `{generation_ms:.1f} ms` | Cloud LLM Streaming API | Generation |
 | **⏱️ End-to-End Turnaround (incl. Cloud LLM)** | **`{total_ms:.1f} ms`** | Full Loop (Cloud-Dominated) | ℹ️ Sub-1s Response |
 
 ---
@@ -146,14 +146,14 @@ def core_process(audio_file, text_input):
 
 | Metric / Evaluation Mode | Measured Value | Standard Target | Verification Status |
 | :--- | :---: | :---: | :---: |
-| **Live Warm Retrieval Core (P50)** | **`86.68 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
-| **Live Warm Retrieval Core (P95)** | **`97.10 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
-| **Live Warm Retrieval Core (Max Peak)** | **`98.27 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
-| **Offline Benchmark P50 (3,037 Queries)** | **`87.61 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
-| **Offline Benchmark P70 (3,037 Queries)** | **`99.81 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
-| **Offline Benchmark P95 (3,037 Queries)** | **`142.92 ms`** | `< 200 ms` | **`[PASS]`** ✅ |
-| **Retrieval Recall@1 / Recall@5** | **`{recall1_val:.2f}%` / `{recall5_val:.2f}%`** | High Recall | **`[PASS]`** ✅ |
-| **Mean Reciprocal Rank (MRR)** | **`{mrr_val:.4f}`** | Benchmark Result | **`[PASS]`** ✅ |
+| **Live Warm Retrieval Core (P50)** | **`86.68 ms`** | `< 200 ms` | **`[PASS]`** |
+| **Live Warm Retrieval Core (P95)** | **`97.10 ms`** | `< 200 ms` | **`[PASS]`** |
+| **Live Warm Retrieval Core (Max Peak)** | **`98.27 ms`** | `< 200 ms` | **`[PASS]`** |
+| **Offline Benchmark P50 (3,037 Queries)** | **`87.61 ms`** | `< 200 ms` | **`[PASS]`** |
+| **Offline Benchmark P70 (3,037 Queries)** | **`99.81 ms`** | `< 200 ms` | **`[PASS]`** |
+| **Offline Benchmark P95 (3,037 Queries)** | **`142.92 ms`** | `< 200 ms` | **`[PASS]`** |
+| **Retrieval Recall@1 / Recall@5** | **`{recall1_val:.2f}%` / `{recall5_val:.2f}%`** | High Recall | **`[PASS]`** |
+| **Mean Reciprocal Rank (MRR)** | **`{mrr_val:.4f}`** | Benchmark Result | **`[PASS]`** |
 """
 
     return query_text, answer, status, sources_md, lat_md
